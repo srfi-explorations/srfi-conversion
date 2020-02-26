@@ -1,8 +1,9 @@
 (define-library (srfi-alist)
-  (export srfi-alist)
+  (export srfi-number srfi-html srfi-alist)
   (import (scheme base) (scheme file) (trivial-tar-reader))
   (begin
-
+    (define srfi-number car)
+    (define srfi-html cdr)
     (define srfi-alist
       (let ((head (list #f)))
         (define max-srfi 184)

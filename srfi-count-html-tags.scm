@@ -55,9 +55,7 @@
 
 (define (main)
   (let ((counts (make-hash-table)))
-    (for-each (lambda (srfi)
-                (let ((html (cdr srfi)))
-                  (count-html-tags! html counts)))
+    (for-each (lambda (srfi) (count-html-tags! (srfi-html srfi) counts))
               srfi-alist)
     (for-each (lambda (tag-name)
                 (let ((count (hash-table-ref counts tag-name)))
