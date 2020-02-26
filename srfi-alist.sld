@@ -2,6 +2,7 @@
   (export srfi-number srfi-html srfi-alist)
   (import (scheme base) (scheme file) (trivial-tar-reader))
   (begin
+    (define (make-srfi number html) (cons number html))
     (define srfi-number car)
     (define srfi-html cdr)
     (define srfi-alist
@@ -21,15 +22,15 @@
          (lambda (port)
            (read-tar-entries
             (lambda (file-name file-data)
-              (let ((num (file-name->srfi-number file-name)))
-                (when num
+              (let ((number (file-name->srfi-number file-name)))
+                (when number
                   (let* ((html (utf8->string file-data))
-                         (entry (cons num html)))
+                         (srfi (make-srfi number html)))
                     (let insert ((prev head))
                       (if (or (null? (cdr prev))
-                              (< (car entry)
-                                 (car (cadr prev))))
-                          (set-cdr! prev (cons entry (cdr prev)))
+                              (< (srfi-number srfi)
+                                 (srfi-number (cadr prev))))
+                          (set-cdr! prev (cons srfi (cdr prev)))
                           (insert (cdr prev))))))))
             port)))
         (cdr head)))))
