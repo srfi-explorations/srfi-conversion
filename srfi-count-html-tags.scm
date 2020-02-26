@@ -1,4 +1,4 @@
-;;; Display how many times each HTML tag is used in the given SRFIs.
+;;; Count how many times each HTML tag is used in the SRFI collection.
 
 (import (scheme base)
         (scheme char)
@@ -14,6 +14,7 @@
              (gauche (import (srfi 13) (gauche base))))
 
 (import (chibi html-parser))
+(import (srfi-alist))
 
 (define make-set make-hash-table)
 (define set-elems hash-table-keys)
@@ -43,9 +44,8 @@
           (if (null? elems) acc
               (do-list (cdr elems) (do-elem (car elems) acc)))))))
 
-(define (count-html-file-tags! html-file counts)
-  (let* ((html (call-with-input-file html-file port->string))
-         (sxml (call-with-input-string html html->sxml)))
+(define (count-html-tags! html counts)
+  (let ((sxml (call-with-input-string html html->sxml)))
     (tag-names-fold sxml
                     (lambda (tag counts)
                       (unless (symbol-prefix? "*" tag)
@@ -53,11 +53,12 @@
                       counts)
                     counts)))
 
-(define (main html-files)
+(define (main)
   (let ((counts (make-hash-table)))
-    (for-each (lambda (html-file)
-                (count-html-file-tags! html-file counts))
-              html-files)
+    (for-each (lambda (srfi)
+                (let ((html (cdr srfi)))
+                  (count-html-tags! html counts)))
+              srfi-alist)
     (for-each (lambda (tag-name)
                 (let ((count (hash-table-ref counts tag-name)))
                   (displayln (list tag-name count))))
@@ -66,4 +67,4 @@
                       (> (hash-table-ref counts tag-a)
                          (hash-table-ref counts tag-b)))))))
 
-(main (cdr (command-line)))
+(main)
