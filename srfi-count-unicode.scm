@@ -9,7 +9,7 @@
 (import (chibi html-parser))
 (import (srfi-alist))
 
-(define (displayln . xs) (for-each display xs) (newline))
+(define (disp . xs) (for-each display xs) (newline))
 
 (define (count-non-ascii-characters string)
   (define (ascii-char? char) (< (char->integer char) #x80))
@@ -29,7 +29,6 @@
                      srfi-alist)
                 (lambda (a b) (> (cdr a) (cdr b))))))
 
-(define (main)
-  (for-each displayln (count-non-ascii-per-srfi)))
+(define (main) (for-each disp (count-non-ascii-per-srfi)))
 
 (main)
