@@ -32,6 +32,7 @@
         (scheme process-context)
 	(scheme read)
         (scheme write)
+        (srfi 1)
 	(srfi 159 base)
 	(chibi sxml))
 
@@ -95,10 +96,12 @@
 	  `(((dt id ,name)		; TODO: Escape the name here.
 	     "("
 	     ((dfn) ,name)
-	     " "
-	     ((span)
-	      ,@(map (lambda (a) `((var) ,a))
-		     arguments))
+             ,@(if (null? arguments) '()
+                   `(" "
+                     ((span)
+                      ((var) ,(car arguments))
+                      ,@(append-map (lambda (a) `(" " ((var) ,a)))
+                                    (cdr arguments)))))
 	     ")"))))))
 
 (define (read-all-lines)
