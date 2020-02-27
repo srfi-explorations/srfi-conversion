@@ -3,10 +3,10 @@
 (import (scheme base) (scheme write) (srfi 69) (srfi 95))
 (import (sxml-utilities) (srfi-alist))
 
+(define (disp . xs) (for-each display xs) (newline))
+
 (define (hash-table-increment! table key)
   (hash-table-update!/default table key (lambda (x) (+ x 1)) 0))
-
-(define (disp . xs) (for-each display xs) (newline))
 
 (define (count-html-tags! html counts)
   (tag-names-fold (html-string->sxml html)
