@@ -4,7 +4,6 @@
         (scheme char)
         (scheme cxr)
         (scheme file)
-        (scheme process-context)
         (scheme write)
         (srfi 1)
         (srfi 69)
