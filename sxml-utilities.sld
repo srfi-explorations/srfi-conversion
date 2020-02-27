@@ -1,5 +1,6 @@
 (define-library (sxml-utilities)
-  (export html-string->sxml tag-body element-fold tag-names-fold)
+  (export html-string->sxml tag-body element-fold tag-names-fold
+          element-for-each tag-names-for-each)
   (import (scheme base))
   (cond-expand (chibi  (import (chibi io) (chibi string)))
                (gauche (import (srfi 13) (gauche base))))
@@ -29,4 +30,10 @@
                   (do-list (cdr elems) (do-elem (car elems) acc)))))))
 
     (define (tag-names-fold elem kons knil)
-      (element-fold elem (lambda (e acc) (kons (car e) acc)) knil))))
+      (element-fold elem (lambda (e acc) (kons (car e) acc)) knil))
+
+    (define (element-for-each proc elem)
+      (element-fold elem (lambda (e _) (proc e) #f) #f))
+
+    (define (tag-names-for-each proc elem)
+      (element-fold elem (lambda (e _) (proc (car e)) #f) #f))))
