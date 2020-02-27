@@ -29,11 +29,4 @@
                   (do-list (cdr elems) (do-elem (car elems) acc)))))))
 
     (define (tag-names-fold elem kons knil)
-      (let do-elem ((elem elem) (acc knil))
-        (if (not (pair? elem)) acc
-            (let do-list ((elems (tag-body elem))
-                          (acc (let ((tag (car elem)))
-                                 (if (symbol-prefix? "*" tag) acc
-                                     (kons tag acc)))))
-              (if (null? elems) acc
-                  (do-list (cdr elems) (do-elem (car elems) acc)))))))))
+      (element-fold elem (lambda (e acc) (kons (car e) acc)) knil))))
