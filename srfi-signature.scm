@@ -86,17 +86,20 @@
 	(html* indentation level tree)))))
 
 (define (format-signature line)
-  (let* ((form (read (open-input-string line)))
-	 (name (car form))
-	 (arguments (cdr form)))
-    `(((dt id ,name)			; TODO: Escape the name here.
-      "("
-      ((dfn) ,name)
-      " "
-      ((span)
-       ,@(map (lambda (a) `((var) ,a))
-	      arguments))
-      ")"))))
+  (let ((sexp (read (open-input-string line))))
+    (if (symbol? sexp)
+	`(((dt id ,sexp)		; TODO: Escape the name here.
+	   ((dfn) ,sexp)))
+	(let ((name (car sexp))
+	      (arguments (cdr sexp)))
+	  `(((dt id ,name)		; TODO: Escape the name here.
+	     "("
+	     ((dfn) ,name)
+	     " "
+	     ((span)
+	      ,@(map (lambda (a) `((var) ,a))
+		     arguments))
+	     ")"))))))
 
 (define (read-all-lines)
   (let next-line ((accumulator '()))
