@@ -5,15 +5,16 @@
 
 (define (disp . xs) (for-each display xs) (newline))
 
-(define (html-contains-image? html)
-  (tag-names-fold (html-string->sxml html)
-                  (lambda (tag img?) (or img? (equal? 'img tag)))
-                  #f))
+(define (html-image-count html)
+  (tag-names-fold
+   (html-string->sxml html)
+   (lambda (tag count) (if (equal? 'img tag) (+ count 1) count))
+   0))
 
 (define (main)
   (for-each (lambda (srfi)
-              (when (html-contains-image? (srfi-html srfi))
-                (disp (srfi-number srfi))))
+              (let ((count (html-image-count (srfi-html srfi))))
+                (when (> count 0) (disp (cons (srfi-number srfi) count)))))
             srfi-alist))
 
 (main)
