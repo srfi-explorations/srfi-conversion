@@ -39,7 +39,10 @@
 (define (tag-names-fold elem kons knil)
   (let do-elem ((elem elem) (acc knil))
     (if (not (pair? elem)) acc
-        (let do-list ((elems (tag-body elem)) (acc (kons (car elem) acc)))
+        (let do-list ((elems (tag-body elem))
+                      (acc (let ((tag (car elem)))
+                             (if (symbol-prefix? "*" tag) acc
+                                 (kons tag acc)))))
           (if (null? elems) acc
               (do-list (cdr elems) (do-elem (car elems) acc)))))))
 
@@ -47,8 +50,7 @@
   (let ((sxml (call-with-input-string html html->sxml)))
     (tag-names-fold sxml
                     (lambda (tag counts)
-                      (unless (symbol-prefix? "*" tag)
-                        (hash-table-increment! counts tag))
+                      (hash-table-increment! counts tag)
                       counts)
                     counts)))
 
