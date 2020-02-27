@@ -3,11 +3,6 @@
 (import (scheme base) (scheme write) (srfi 69) (srfi 95))
 (import (sxml-utilities) (srfi-alist))
 
-(define make-set make-hash-table)
-(define set-elems hash-table-keys)
-(define (add-to-set elem set) (hash-table-set! set elem #t) set)
-(define (symbol<? a b) (string<? (symbol->string a) (symbol->string b)))
-
 (define (hash-table-increment! table key)
   (hash-table-update!/default table key (lambda (x) (+ x 1)) 0))
 
