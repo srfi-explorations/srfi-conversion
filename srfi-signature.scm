@@ -81,8 +81,8 @@
    ((indentation level tree)
     (if (positive? level)
 	(each nl
-	      (make-string (* tab-amount indentation) #\space)
-	      (html* (+ indentation 1) (- level 1) tree))
+	      (each (space-to (* tab-amount indentation))
+		    (html* (+ indentation 1) (- level 1) tree)))
 	(html* indentation level tree)))))
 
 (define (format-signature line)
