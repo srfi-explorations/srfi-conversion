@@ -26,9 +26,7 @@
 (define (symbol-prefix? prefix sym)
   (string-prefix? prefix (symbol->string sym)))
 
-(define (displayln . xs)
-  (for-each display xs)
-  (newline))
+(define (disp . xs) (for-each display xs) (newline))
 
 (define (tag-body elem)
   (cond ((not (pair? (cdr elem))) '())
@@ -60,7 +58,7 @@
               srfi-alist)
     (for-each (lambda (tag-name)
                 (let ((count (hash-table-ref counts tag-name)))
-                  (displayln (list tag-name count))))
+                  (disp (list tag-name count))))
               (sort (hash-table-keys counts)
                     (lambda (tag-a tag-b)
                       (> (hash-table-ref counts tag-a)
