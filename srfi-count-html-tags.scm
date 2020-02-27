@@ -9,11 +9,8 @@
   (hash-table-update!/default table key (lambda (x) (+ x 1)) 0))
 
 (define (count-html-tags! html counts)
-  (tag-names-fold (html-string->sxml html)
-                  (lambda (tag counts)
-                    (hash-table-increment! counts tag)
-                    counts)
-                  counts))
+  (tag-names-for-each (lambda (tag) (hash-table-increment! counts tag))
+                      (html-string->sxml html)))
 
 (define (main)
   (let ((counts (make-hash-table)))
