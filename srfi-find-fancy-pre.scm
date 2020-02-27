@@ -5,27 +5,27 @@
 
 (define (disp . xs) (for-each display xs) (newline))
 
-(define (html-fancy-tags-inside-pre html)
-  (let ((fancy (make-hash-table)))
-    (element-fold
-     (html-string->sxml html)
-     (lambda (elem fancy)
-       (if (not (equal? 'pre (car elem))) fancy
-           (tag-names-fold elem
-                           (lambda (tag fancy)
-                             (if (equal? 'pre tag) fancy
-                                 (begin (hash-table-set! fancy tag #t)
-                                        fancy)))
-                           fancy)))
-     fancy)
-    (map string->symbol (sort (map symbol->string (hash-table-keys fancy))
-                              string<?))))
+(define (sort-symbols symbols)
+  (map string->symbol (sort (map symbol->string symbols) string<?)))
+
+(define (html-other-tags-inside-pre html)
+  (let ((other-tags (make-hash-table)))
+    (element-for-each
+     (lambda (elem)
+       (when (equal? 'pre (car elem))
+         (tag-names-for-each
+          (lambda (tag)
+            (unless (equal? 'pre tag)
+              (hash-table-set! other-tags tag #t)))
+          elem)))
+     (html-string->sxml html))
+    (sort-symbols (hash-table-keys other-tags))))
 
 (define (main)
   (for-each (lambda (srfi)
-              (let ((fancy (html-fancy-tags-inside-pre (srfi-html srfi))))
-                (unless (null? fancy)
-                  (disp (cons (srfi-number srfi) fancy)))))
+              (let ((tags (html-other-tags-inside-pre (srfi-html srfi))))
+                (unless (null? tags)
+                  (disp (cons (srfi-number srfi) tags)))))
             srfi-alist))
 
 (main)
