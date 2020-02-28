@@ -1,13 +1,19 @@
 (define-library (signature-reader)
-  (export read-token read-all-tokens
+  (export read-token read-all-tokens read-all-forms
           read-3-part-signature string->3-part-signature)
   (import (scheme base) (scheme char) (scheme read) (srfi 1) (srfi 130))
   (import (utilities))
   (begin
 
-    (define right-arrow #\x27f6)
+    (define short-arrow #\x2192)
+    (define long-arrow #\x27f6)
+    (define arrow-chars (list short-arrow long-arrow))
+    (define arrow-symbols (cons '|->| (map string->symbol (map string arrow-chars))))
+    (define (arrow? obj) (member obj arrow-symbols))
 
-    (define standalone-chars (string-append "()." (string right-arrow)))
+    ;;;
+
+    (define standalone-chars (string-append "()." (list->string arrow-chars)))
 
     (define (standalone-char? char)
       (string-contains-char? standalone-chars char))
@@ -33,33 +39,48 @@
 
     ;;;
 
-    (define after-arrow
-      (let ((arrows '("->" "→" "⟶")))
-        (lambda (string)
-          (cond ((find (lambda (a) (string-prefix? a string)) arrows)
-                 => (lambda (a)
-                      (string-trim-both
-                       (string-drop string (string-length a)))))
-                (else #f)))))
+    (define (read-all-forms)
+      (define tokens (read-all-tokens))
+      (define (read-token? match?)
+        (let ((head (if (null? tokens) (eof-object) (car tokens)))
+              (tail (if (null? tokens) tokens (cdr tokens))))
+          (and (match? head) (begin (set! tokens tail) head))))
+      (define (open?  tok) (eqv? '|(| tok))
+      (define (close? tok) (eqv? '|)| tok))
+      (define (read-delimited delimiter?)
+        (let loop ((acc '()))
+          (if (read-token? delimiter?) (reverse acc)
+              (loop (cons (read-nested) acc)))))
+      (define (read-list?) (and (read-token? open?) (read-delimited close?)))
+      (define (read-nested)
+        (or (read-list?) (read-token? symbol?) (error "Syntax error")))
+      (read-delimited eof-object?))
 
-    (define (parse-tail string)
-      (cond ((after-arrow (string-trim string))
-             => (lambda (s) (string-split s " " 'strict-infix 1)))
-            (else #f)))
+    ;;;
 
     (define (read-3-part-signature)
-      (let* ((sexp (read))
-             (tail (read-line)))
-        (cond ((not tail) (values sexp #f #f))
-              ((eof-object? tail) (values sexp #f #f))
-              ((parse-tail tail)
-               => (lambda (return+comment)
-                    (values
-                     sexp
-                     (string-trim (car return+comment))
-                     (cond ((null? (cdr return+comment)) #f)
-                           (else (string-trim (cadr return+comment)))))))
-              (else (values sexp #f #f)))))
+      (let ((forms (read-all-forms))
+            (sexp #f)
+            (retu #f)
+            (comm #f))
+        (unless (null? forms)
+          (set! sexp (car forms))
+          (unless (or (list? sexp) (and (symbol? sexp) (not (arrow? sexp))))
+            (error "Bad S-expression"))
+          (set! forms (cdr forms))
+          (unless (null? forms)
+            (unless (arrow? (car forms))
+              (error "Expected arrow instead of" (car forms)))
+            (set! forms (cdr forms))
+            (unless (null? forms)
+              (set! retu (car forms))
+              (set! forms (cdr forms))
+              (unless (null? forms)
+                (set! comm (car forms))
+                (set! forms (cdr forms))
+                (unless (null? forms)
+                  (error "Spurious item at end of list"))))))
+        (values sexp retu comm)))
 
     (define (string->3-part-signature line)
       (with-input-from-string line read-3-part-signature))))

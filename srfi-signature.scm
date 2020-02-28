@@ -143,6 +143,12 @@
                ,@(if return `((span ,long-rightwards-arrow ,return)) '())
                ,@(if comment `((p ,comment)) '()))))))
 
+(define (main/forms)
+  (for-each (lambda (line)
+              (let ((forms (with-input-from-string line read-all-forms)))
+                (writeln forms)))
+            (read-all-lines)))
+
 (define (main/3-part)
   (for-each (lambda (line)
               (let-values (((sexp return comment)
