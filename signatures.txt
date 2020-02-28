@@ -1,0 +1,13 @@
+(exit status-code)
+(string->foo string) ⟶ foo-vector
+(string->quux string) ⟶ quux-vector
+(string->vector string) ⟶ char-vector (R7RS-small)
+(string->vector string start) ⟶ char-vector
+(string->vector string start end) ⟶ char-vector
+(string->list string) ⟶ char-list (R7RS-small)
+(string->list string start) ⟶ char-list
+(string->list string start end) ⟶ char-list
+(vector->string char-vector) ⟶ string (R7RS-small)
+(vector->string char-vector start) ⟶ string
+(vector->string char-vector start end) ⟶ string
+(list->string char-list) ⟶ string (R5RS)
