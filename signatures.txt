@@ -13,3 +13,5 @@ fl-e-pi/4
 (vector->string char-vector start end) ⟶ string
 (list->string char-list) ⟶ string (R5RS)
 (implementation-name) ⟶ string
+(with-input-from-string string thunk) -> value
+(with-output-to-string thunk) -> string From R5RS and IEEE.
