@@ -131,7 +131,8 @@
            (html-id (signature-html-id name)))
       (if name-only?
           `(dt (@ (id ,html-id))
-               ,zero-width-space
+               (b "Variable")
+               " "
                (dfn ,name))
           `(dt (@ (id ,html-id))
                "("
