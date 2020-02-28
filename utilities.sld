@@ -1,8 +1,10 @@
 (define-library (utilities)
-  (export writeln with-input-from-string string-contains-char? generator->list
-          read-all-lines read-char? read-char* skip-char*)
+  (export disp writeln with-input-from-string string-contains-char?
+          generator->list read-all-lines read-char? read-char* skip-char*)
   (import (scheme base) (scheme read) (scheme write))
   (begin
+
+    (define (disp . xs) (for-each display xs) (newline))
 
     (define (writeln x) (write x) (newline))
 

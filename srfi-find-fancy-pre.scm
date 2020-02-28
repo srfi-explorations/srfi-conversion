@@ -1,9 +1,7 @@
 ;;; List all other tags contained inside a <pre> tag in each SRFI
 
 (import (scheme base) (scheme write) (srfi 69) (srfi 95))
-(import (sxml-utilities) (srfi-alist))
-
-(define (disp . xs) (for-each display xs) (newline))
+(import (utilities) (sxml-utilities) (srfi-alist))
 
 (define (sort-symbols symbols)
   (map string->symbol (sort (map symbol->string symbols) string<?)))

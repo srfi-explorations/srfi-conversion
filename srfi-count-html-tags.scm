@@ -1,9 +1,7 @@
 ;;; Count how many times each HTML tag is used in the SRFI collection.
 
 (import (scheme base) (scheme write) (srfi 69) (srfi 95))
-(import (sxml-utilities) (srfi-alist))
-
-(define (disp . xs) (for-each display xs) (newline))
+(import (utilities) (sxml-utilities) (srfi-alist))
 
 (define (hash-table-increment! table key)
   (hash-table-update!/default table key (lambda (x) (+ x 1)) 0))

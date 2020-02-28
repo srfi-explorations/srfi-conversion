@@ -1,9 +1,7 @@
 ;;; List the SRFIs containing one or more images.
 
 (import (scheme base) (scheme write))
-(import (sxml-utilities) (srfi-alist))
-
-(define (disp . xs) (for-each display xs) (newline))
+(import (utilities) (sxml-utilities) (srfi-alist))
 
 (define (html-image-count html)
   (tag-names-fold

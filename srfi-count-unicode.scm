@@ -1,9 +1,7 @@
 ;;; Find SRFIs using Unicode characters
 
 (import (scheme base) (scheme write) (srfi 1) (srfi 69) (srfi 95))
-(import (srfi-alist))
-
-(define (disp . xs) (for-each display xs) (newline))
+(import (utilities) (srfi-alist))
 
 (define (hash-table-increment! table key)
   (hash-table-update!/default table key (lambda (x) (+ x 1)) 0))
