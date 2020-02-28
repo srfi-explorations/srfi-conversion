@@ -131,7 +131,7 @@
                ,@(if (null? arguments) '()
                      `(" "
                        (span
-                        ,@(interpose " " (map (lambda (a) `((var ,a)))
+                        ,@(interpose " " (map (lambda (a) `(var ,a))
                                               arguments)))))
                ")"
                ,@(if return `((span ,long-rightwards-arrow ,return)) '())
