@@ -127,11 +127,13 @@
 	  `(((dt id ,name)		; TODO: Escape the name here.
 	     "("
 	     ((dfn) ,name)
-	     " "
-	     ((span)
-	      ,@(cdr (append-map (lambda (a) `(" " ((var) ,a))) arguments))
-	      ")")
-	     ,@(if return `(((span) (raw " &xrarr; ") ,return)) '())
+             ,@(if (null? arguments) '()
+                   `(" "
+                     ((span)
+                      ,@(cdr (append-map (lambda (a) `(" " ((var) ,a)))
+                                         arguments)))))
+             ")"
+             ,@(if return `(((span) (raw " &xrarr; ") ,return)) '())
 	     ,@(if comment `(((p) ,comment)) '())))))))
 
 (define (read-all-lines)

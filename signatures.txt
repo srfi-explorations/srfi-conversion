@@ -11,3 +11,4 @@
 (vector->string char-vector start) ⟶ string
 (vector->string char-vector start end) ⟶ string
 (list->string char-list) ⟶ string (R5RS)
+(implementation-name) ⟶ alist
