@@ -8,7 +8,8 @@
     (define short-arrow #\x2192)
     (define long-arrow #\x27f6)
     (define arrow-chars (list short-arrow long-arrow))
-    (define arrow-symbols (cons '|->| (map string->symbol (map string arrow-chars))))
+    (define arrow-symbols
+      (cons '|->| (map string->symbol (map string arrow-chars))))
     (define (arrow? obj) (member obj arrow-symbols))
 
     ;;;
