@@ -1,0 +1,7 @@
+dt dfn {
+  font-weight: bold;
+  font-style: normal;
+}
+dt var {
+  font-style: italic;
+}

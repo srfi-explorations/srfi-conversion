@@ -162,6 +162,8 @@
 
 (define (main)
   (let ((dts (map signature-string->sxml (read-all-lines))))
+    (sxml-display-as-html '(link (@ (rel "stylesheet") (href "srfi.css"))))
+    (newline)
     (case (length dts)
       ((0))
       ((1)
