@@ -29,6 +29,7 @@
 
 (import (scheme base)
         (scheme case-lambda)
+        (scheme char)
         (scheme process-context)
         (scheme read)
         (scheme write)
@@ -46,6 +47,13 @@
         (next (cons (cons (car plist) (cadr plist))
                     accumulator)
               (cddr plist)))))
+
+(define (interpose sep xs) (cdr (append-map (lambda (x) (list sep x)) xs)))
+
+(define (ascii-alphanumeric? char)
+  (or (char<=? #\A char #\Z)
+      (char<=? #\a char #\z)
+      (char<=? #\0 char #\9)))
 
 (define (html-element tag attributes body)
   (each "<"
@@ -90,34 +98,44 @@
                      (html* (+ indentation 1) (- level 1) tree)))
          (html* indentation level tree)))))
 
+(define (weird->uscore string)
+  (define (mangle char)
+    (if (ascii-alphanumeric? char) (char-downcase char) #\_))
+  (let loop ((in (string->list string)) (out '()) (had-uscore? #t))
+    (if (null? in) (list->string (reverse out))
+        (let* ((char (mangle (car in))) (uscore? (char=? #\_ char)))
+          (loop (cdr in) (if (and uscore? had-uscore?) out (cons char out))
+                uscore?)))))
+
+(define (unique-html-id string) string)  ; TODO
+
+(define (signature-html-id string)
+  (unique-html-id (string-append "def_" (weird->uscore string))))
+
+(define zero-width-space "\x200B;")
+(define long-rightwards-arrow "\x27F6;")  ; &xrarr;
+
 (define (signature-string->sxml line)
   (let-values (((sexp return comment) (string->3-part-signature line)))
-    (if (symbol? sexp)
-        `(((dt id ,sexp)                ; TODO: Escape the name here.
-           (raw "&#8203;")
-           ((dfn) ,sexp)))
-        (let ((name (car sexp))
-              (arguments (cdr sexp)))
-          `(((dt id ,name)              ; TODO: Escape the name here.
-             "("
-             ((dfn) ,name)
-             ,@(if (null? arguments) '()
-                   `(" "
-                     ((span)
-                      ,@(cdr (append-map (lambda (a) `(" " ((var) ,a)))
-                                         arguments)))))
-             ")"
-             ,@(if return `(((span) (raw " &xrarr; ") ,return)) '())
-             ,@(if comment `(((p) ,comment)) '())))))))
-
-(define (main)
-  (let ((lines (read-all-lines)))
-    (unless (null? lines)
-      (show #t
-            (if (null? (cdr lines))
-                (html 0 (signature-string->sxml (car lines)))
-                (html 2 `((div) ,@(map signature-string->sxml lines))))
-            nl))))
+    (let* ((name-only? (symbol? sexp))
+           (name (symbol->string (if name-only? sexp (car sexp))))
+           (arguments (if name-only? #f (map symbol->string (cdr sexp))))
+           (html-id (signature-html-id name)))
+      (if name-only?
+          `(dt (@ (id ,html-id))
+               ,zero-width-space
+               (dfn ,name))
+          `(dt (@ (id ,html-id))
+               "("
+               (dfn ,name)
+               ,@(if (null? arguments) '()
+                     `(" "
+                       (span
+                        ,@(interpose " " (map (lambda (a) `((var ,a)))
+                                              arguments)))))
+               ")"
+               ,@(if return `((span ,long-rightwards-arrow ,return)) '())
+               ,@(if comment `((p ,comment)) '()))))))
 
 (define (main/3-part)
   (for-each (lambda (line)
@@ -129,7 +147,21 @@
                 (newline)))
             (read-all-lines)))
 
-(define (main/sxml)
-  (for-each writeln (map signature-string->sxml (read-all-lines))))
+(define (main)
+  (let ((dts (map signature-string->sxml (read-all-lines))))
+    (case (length dts)
+      ((0))
+      ((1)
+       (sxml-display-as-html (car dts))
+       (newline))
+      (else
+       ;; TODO: Use SXML library or auto-formatter to indent HTML.
+       (disp "<div>")
+       (for-each (lambda (dt)
+                   (display (make-string tab-amount #\space))
+                   (sxml-display-as-html dt)
+                   (newline))
+                 dts)
+       (disp "</div>")))))
 
 (main)
