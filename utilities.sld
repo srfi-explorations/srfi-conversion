@@ -1,7 +1,8 @@
 (define-library (utilities)
   (export disp writeln with-input-from-string string-contains-char?
+          hash-table-increment!
           generator->list read-all-lines read-char? read-char* skip-char*)
-  (import (scheme base) (scheme read) (scheme write))
+  (import (scheme base) (scheme read) (scheme write) (srfi 69))
   (begin
 
     (define (disp . xs) (for-each display xs) (newline))
@@ -16,6 +17,9 @@
 
     (define (string-contains-char? string char)
       (not (not (member char (string->list string)))))
+
+    (define (hash-table-increment! table key)
+      (hash-table-update!/default table key (lambda (x) (+ x 1)) 0))
 
     (define (generator->list generator)
       (let loop ((xs '()))

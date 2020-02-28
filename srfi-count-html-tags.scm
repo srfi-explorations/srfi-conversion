@@ -3,9 +3,6 @@
 (import (scheme base) (scheme write) (srfi 69) (srfi 95))
 (import (utilities) (sxml-utilities) (srfi-alist))
 
-(define (hash-table-increment! table key)
-  (hash-table-update!/default table key (lambda (x) (+ x 1)) 0))
-
 (define (count-html-tags! html counts)
   (tag-names-for-each (lambda (tag) (hash-table-increment! counts tag))
                       (html-string->sxml html)))
