@@ -28,53 +28,53 @@
 ;; the ID (which may be encoded as an anchor name).
 
 (import (scheme base)
-	(scheme case-lambda)
+        (scheme case-lambda)
         (scheme process-context)
-	(scheme read)
+        (scheme read)
         (scheme write)
-	(srfi 1)
-	(srfi 130)
-	(srfi 159 base)
-	(chibi sxml))
+        (srfi 1)
+        (srfi 130)
+        (srfi 159 base)
+        (chibi sxml))
 
 (define (plist->alist plist)
   (let next ((accumulator '())
-	     (plist plist))
+             (plist plist))
     (if (null? plist)
-	(reverse accumulator)
-	(next (cons (cons (car plist) (cadr plist))
-		    accumulator)
-	      (cddr plist)))))
+        (reverse accumulator)
+        (next (cons (cons (car plist) (cadr plist))
+                    accumulator)
+              (cddr plist)))))
 
 (define (html-element tag attributes body)
   (each "<"
-	tag
-	(joined/prefix
-	 (lambda (a) (each (car a) "=" (written (html-escape (cdr a)))))
-	 (plist->alist attributes)
-	 " ")
-	">"
-	body
-	"</"
-	tag
-	">"))
+        tag
+        (joined/prefix
+         (lambda (a) (each (car a) "=" (written (html-escape (cdr a)))))
+         (plist->alist attributes)
+         " ")
+        ">"
+        body
+        "</"
+        tag
+        ">"))
 
 (define (html* indentation level tree)
   (define (descend tree) (html indentation level tree))
   (cond ((number? tree) tree)
-	((string? tree) (html-escape tree))
-	((symbol? tree) (html-escape (symbol->string tree)))
-	((pair? tree)
-	 (cond ((and (pair? (car tree))
-		     (or (symbol? (caar tree))
-			 (string? (caar tree))))
-		(html-element (caar tree)
-			      (cdar tree)
-			      (joined descend (cdr tree))))
-	       ((eq? (car tree) 'raw)
-		(each-in-list (cdr tree)))
-	       (else (joined descend tree))))
-	(else (error "Malformed HTML tree." tree))))
+        ((string? tree) (html-escape tree))
+        ((symbol? tree) (html-escape (symbol->string tree)))
+        ((pair? tree)
+         (cond ((and (pair? (car tree))
+                     (or (symbol? (caar tree))
+                         (string? (caar tree))))
+                (html-element (caar tree)
+                              (cdar tree)
+                              (joined descend (cdr tree))))
+               ((eq? (car tree) 'raw)
+                (each-in-list (cdr tree)))
+               (else (joined descend tree))))
+        (else (error "Malformed HTML tree." tree))))
 
 (define tab-amount 2)
 
@@ -84,49 +84,49 @@
    ((level tree) (html 0 level tree))
    ((indentation level tree)
     (if (positive? level)
-	(each nl
-	      (each (space-to (* tab-amount indentation))
-		    (html* (+ indentation 1) (- level 1) tree)))
-	(html* indentation level tree)))))
+        (each nl
+              (each (space-to (* tab-amount indentation))
+                    (html* (+ indentation 1) (- level 1) tree)))
+        (html* indentation level tree)))))
 
 (define after-arrow
   (let ((arrows '("->" "→" "⟶")))
     (lambda (string)
       (cond ((find (lambda (a) (string-prefix? a string)) arrows)
-	     => (lambda (a)
-		  (string-trim-both (string-drop string (string-length a)))))
-	    (else #f)))))
+             => (lambda (a)
+                  (string-trim-both (string-drop string (string-length a)))))
+            (else #f)))))
 
 (define (parse-tail string)
   (cond ((after-arrow (string-trim string))
-	 => (lambda (s) (string-split s " " 'strict-infix 1)))
-	(else #f)))
+         => (lambda (s) (string-split s " " 'strict-infix 1)))
+        (else #f)))
 
 (define (parse-line line)
   (let* ((port (open-input-string line))
-	 (sexp (read port))
-	 (tail (read-line port)))
+         (sexp (read port))
+         (tail (read-line port)))
     (cond ((not tail) (values sexp #f #f))
-	  ((eof-object? tail) (values sexp #f #f))
-	  ((parse-tail tail)
-	   => (lambda (return+comment)
-		(values sexp
-			(string-trim (car return+comment))
-			(cond ((null? (cdr return+comment)) #f)
-			      (else (string-trim (cadr return+comment)))))))
-	  (else (values sexp #f #f)))))
+          ((eof-object? tail) (values sexp #f #f))
+          ((parse-tail tail)
+           => (lambda (return+comment)
+                (values sexp
+                        (string-trim (car return+comment))
+                        (cond ((null? (cdr return+comment)) #f)
+                              (else (string-trim (cadr return+comment)))))))
+          (else (values sexp #f #f)))))
 
 (define (format-signature line)
   (let-values (((sexp return comment) (parse-line line)))
     (if (symbol? sexp)
-	`(((dt id ,sexp)		; TODO: Escape the name here.
-	   (raw "&#8203;")
-	   ((dfn) ,sexp)))
-	(let ((name (car sexp))
-	      (arguments (cdr sexp)))
-	  `(((dt id ,name)		; TODO: Escape the name here.
-	     "("
-	     ((dfn) ,name)
+        `(((dt id ,sexp)                ; TODO: Escape the name here.
+           (raw "&#8203;")
+           ((dfn) ,sexp)))
+        (let ((name (car sexp))
+              (arguments (cdr sexp)))
+          `(((dt id ,name)              ; TODO: Escape the name here.
+             "("
+             ((dfn) ,name)
              ,@(if (null? arguments) '()
                    `(" "
                      ((span)
@@ -134,22 +134,22 @@
                                          arguments)))))
              ")"
              ,@(if return `(((span) (raw " &xrarr; ") ,return)) '())
-	     ,@(if comment `(((p) ,comment)) '())))))))
+             ,@(if comment `(((p) ,comment)) '())))))))
 
 (define (read-all-lines)
   (let next-line ((accumulator '()))
     (let ((line (read-line)))
       (if (eof-object? line)
-	  (reverse accumulator)
-	  (next-line (cons line accumulator))))))
+          (reverse accumulator)
+          (next-line (cons line accumulator))))))
 
 (define (main args)
   (let ((lines (read-all-lines)))
     (unless (null? lines)
       (show #t
-	    (if (null? (cdr lines))
-		(html 0 (format-signature (car lines)))
-		(html 2 `((div) ,@(map format-signature lines))))
-	    nl))))
+            (if (null? (cdr lines))
+                (html 0 (format-signature (car lines)))
+                (html 2 `((div) ,@(map format-signature lines))))
+            nl))))
 
 (main (command-line))
