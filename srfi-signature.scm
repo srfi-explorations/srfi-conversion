@@ -115,8 +115,8 @@
 (define zero-width-space "\x200B;")
 (define long-rightwards-arrow "\x27F6;")  ; &xrarr;
 
-(define (signature-string->sxml line)
-  (let-values (((sexp return comment) (string->3-part-signature line)))
+(define (signature-string->sxml string)
+  (let-values (((sexp return comment) (string->3-part-signature string)))
     (let* ((name-only? (symbol? sexp))
            (name (symbol->string (if name-only? sexp (car sexp))))
            (arguments (if name-only? #f (map symbol->string (cdr sexp))))
@@ -129,10 +129,8 @@
                "("
                (dfn ,name)
                ,@(if (null? arguments) '()
-                     `(" "
-                       (span
-                        ,@(interpose " " (map (lambda (a) `(var ,a))
-                                              arguments)))))
+                     `(" " (span ,@(interpose " " (map (lambda (a) `(var ,a))
+                                                       arguments)))))
                ")"
                ,@(if return `((span ,long-rightwards-arrow ,return)) '())
                ,@(if comment `((p ,comment)) '()))))))
