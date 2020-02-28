@@ -1,57 +1,16 @@
 ;;; Count how many times each HTML tag is used in the SRFI collection.
 
-(import (scheme base)
-        (scheme char)
-        (scheme cxr)
-        (scheme file)
-        (scheme process-context)
-        (scheme write)
-        (srfi 1)
-        (srfi 69)
-        (srfi 95))
+(import (scheme base) (scheme write) (srfi 69) (srfi 95))
+(import (sxml-utilities) (srfi-alist))
 
-(cond-expand (chibi  (import (chibi io) (chibi string)))
-             (gauche (import (srfi 13) (gauche base))))
-
-(import (chibi html-parser))
-(import (srfi-alist))
-
-(define make-set make-hash-table)
-(define set-elems hash-table-keys)
-(define (add-to-set elem set) (hash-table-set! set elem #t) set)
-(define (symbol<? a b) (string<? (symbol->string a) (symbol->string b)))
+(define (disp . xs) (for-each display xs) (newline))
 
 (define (hash-table-increment! table key)
   (hash-table-update!/default table key (lambda (x) (+ x 1)) 0))
 
-(define (symbol-prefix? prefix sym)
-  (string-prefix? prefix (symbol->string sym)))
-
-(define (displayln . xs)
-  (for-each display xs)
-  (newline))
-
-(define (tag-body elem)
-  (cond ((not (pair? (cdr elem))) '())
-        ((and (pair? (cadr elem)) (eqv? '@ (caadr elem)))
-         (cddr elem))
-        (else (cdr elem))))
-
-(define (tag-names-fold elem kons knil)
-  (let do-elem ((elem elem) (acc knil))
-    (if (not (pair? elem)) acc
-        (let do-list ((elems (tag-body elem)) (acc (kons (car elem) acc)))
-          (if (null? elems) acc
-              (do-list (cdr elems) (do-elem (car elems) acc)))))))
-
 (define (count-html-tags! html counts)
-  (let ((sxml (call-with-input-string html html->sxml)))
-    (tag-names-fold sxml
-                    (lambda (tag counts)
-                      (unless (symbol-prefix? "*" tag)
-                        (hash-table-increment! counts tag))
-                      counts)
-                    counts)))
+  (tag-names-for-each (lambda (tag) (hash-table-increment! counts tag))
+                      (html-string->sxml html)))
 
 (define (main)
   (let ((counts (make-hash-table)))
@@ -59,7 +18,7 @@
               srfi-alist)
     (for-each (lambda (tag-name)
                 (let ((count (hash-table-ref counts tag-name)))
-                  (displayln (list tag-name count))))
+                  (disp (list tag-name count))))
               (sort (hash-table-keys counts)
                     (lambda (tag-a tag-b)
                       (> (hash-table-ref counts tag-a)
