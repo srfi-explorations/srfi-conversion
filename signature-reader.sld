@@ -1,5 +1,6 @@
 (define-library (signature-reader)
-  (export read-token read-3-part-signature string->3-part-signature)
+  (export read-token read-all-tokens
+          read-3-part-signature string->3-part-signature)
   (import (scheme base) (scheme char) (scheme read) (srfi 1) (srfi 130))
   (import (utilities))
   (begin
@@ -27,6 +28,8 @@
                                       (read-char* token-subsequent-char?)))))
           (let ((char (peek-char)))
             (if (eof-object? char) char (error "Syntax error:" char)))))
+
+    (define (read-all-tokens) (generator->list read-token))
 
     ;;;
 
