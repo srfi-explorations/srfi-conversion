@@ -2,6 +2,8 @@
 
 (define right-arrow #\x27f6)
 
+(define standalone-chars (string-append "()." (string right-arrow)))
+
 (define (writeln x) (write x) (newline))
 
 (define (generator->list generator)
@@ -24,9 +26,7 @@
 
 (define (skip-char* match?) (not (not (read-char* match?))))
 
-(define (standalone-char? char)
-  (string-contains-char? (string-append "()." (string right-arrow))
-                         char))
+(define (standalone-char? char) (string-contains-char? standalone-chars char))
 
 (define token-first-char? char-alphabetic?)
 
