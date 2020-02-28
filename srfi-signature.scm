@@ -119,4 +119,17 @@
                 (html 2 `((div) ,@(map signature-string->sxml lines))))
             nl))))
 
+(define (main/3-part)
+  (for-each (lambda (line)
+              (let-values (((sexp return comment)
+                            (string->3-part-signature line)))
+                (writeln sexp)
+                (writeln return)
+                (writeln comment)
+                (newline)))
+            (read-all-lines)))
+
+(define (main/sxml)
+  (for-each writeln (map signature-string->sxml (read-all-lines))))
+
 (main)
