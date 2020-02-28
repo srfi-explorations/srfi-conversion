@@ -6,6 +6,12 @@
 
 (define (writeln x) (write x) (newline))
 
+(define (with-input-from-string string proc)
+  (call-with-port (open-input-string string)
+                  (lambda (in)
+                    (parameterize ((current-input-port in))
+                      (proc)))))
+
 (define (generator->list generator)
   (let loop ((xs '()))
     (let ((x (generator)))
@@ -47,6 +53,10 @@
 
 (define (read-all-tokens) (generator->list read-token))
 
-(define (main) (for-each writeln (read-all-tokens)))
+(define (read-all-lines) (generator->list read-line))
+
+(define (string->tokens s) (with-input-from-string s read-all-tokens))
+
+(define (main) (for-each writeln (map string->tokens (read-all-lines))))
 
 (main)
