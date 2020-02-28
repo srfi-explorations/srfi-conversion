@@ -90,7 +90,7 @@
                      (html* (+ indentation 1) (- level 1) tree)))
          (html* indentation level tree)))))
 
-(define (format-signature line)
+(define (signature-string->sxml line)
   (let-values (((sexp return comment) (string->3-part-signature line)))
     (if (symbol? sexp)
         `(((dt id ,sexp)                ; TODO: Escape the name here.
@@ -115,8 +115,8 @@
     (unless (null? lines)
       (show #t
             (if (null? (cdr lines))
-                (html 0 (format-signature (car lines)))
-                (html 2 `((div) ,@(map format-signature lines))))
+                (html 0 (signature-string->sxml (car lines)))
+                (html 2 `((div) ,@(map signature-string->sxml lines))))
             nl))))
 
 (main (command-line))
