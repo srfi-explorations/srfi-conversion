@@ -110,7 +110,7 @@
              ,@(if return `(((span) (raw " &xrarr; ") ,return)) '())
              ,@(if comment `(((p) ,comment)) '())))))))
 
-(define (main args)
+(define (main)
   (let ((lines (read-all-lines)))
     (unless (null? lines)
       (show #t
@@ -119,4 +119,4 @@
                 (html 2 `((div) ,@(map signature-string->sxml lines))))
             nl))))
 
-(main (command-line))
+(main)
