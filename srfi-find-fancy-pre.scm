@@ -1,3 +1,10 @@
+#! /usr/bin/env lila
+#;
+(declare-file
+  (language r7rs)
+  (implementations gauche chibi)
+  (scheme (path ".")))
+
 ;;; List all other tags contained inside a <pre> tag in each SRFI
 
 (import (scheme base) (scheme write) (srfi 69) (srfi 95))

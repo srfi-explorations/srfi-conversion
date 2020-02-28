@@ -1,3 +1,10 @@
+#! /usr/bin/env lila
+#;
+(declare-file
+  (language r7rs)
+  (implementations gauche chibi)
+  (scheme (path ".")))
+
 ;;; List the SRFIs containing one or more images.
 
 (import (scheme base) (scheme write))
