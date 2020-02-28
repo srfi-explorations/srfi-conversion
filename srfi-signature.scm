@@ -24,6 +24,8 @@
 
 ;; TODO: Handle return values/types as well as tags.
 
+;; TODO: Escape everything necessary.
+
 ;; TODO: Accept HTML as input.  Strip it before generating output, but preserve
 ;; the ID (which may be encoded as an anchor name).
 
@@ -32,6 +34,8 @@
         (scheme process-context)
 	(scheme read)
         (scheme write)
+	(srfi 1)
+	(srfi 130)
 	(srfi 159 base)
 	(chibi sxml))
 
@@ -63,13 +67,15 @@
 	((string? tree) (html-escape tree))
 	((symbol? tree) (html-escape (symbol->string tree)))
 	((pair? tree)
-	 (if (and (pair? (car tree))
-		  (or (symbol? (caar tree))
-		      (string? (caar tree))))
-	     (html-element (caar tree)
-			   (cdar tree)
-			   (joined descend (cdr tree)))
-	     (joined descend tree)))
+	 (cond ((and (pair? (car tree))
+		     (or (symbol? (caar tree))
+			 (string? (caar tree))))
+		(html-element (caar tree)
+			      (cdar tree)
+			      (joined descend (cdr tree))))
+	       ((eq? (car tree) 'raw)
+		(each-in-list (cdr tree)))
+	       (else (joined descend tree))))
 	(else (error "Malformed HTML tree." tree))))
 
 (define tab-amount 2)
@@ -85,10 +91,38 @@
 		    (html* (+ indentation 1) (- level 1) tree)))
 	(html* indentation level tree)))))
 
+(define after-arrow
+  (let ((arrows '("->" "→" "⟶")))
+    (lambda (string)
+      (cond ((find (lambda (a) (string-prefix? a string)) arrows)
+	     => (lambda (a)
+		  (string-trim-both (string-drop string (string-length a)))))
+	    (else #f)))))
+
+(define (parse-tail string)
+  (cond ((after-arrow (string-trim string))
+	 => (lambda (s) (string-split s " " 'strict-infix 1)))
+	(else #f)))
+
+(define (parse-line line)
+  (let* ((port (open-input-string line))
+	 (sexp (read port))
+	 (tail (read-line port)))
+    (cond ((not tail) (values sexp #f #f))
+	  ((eof-object? tail) (values sexp #f #f))
+	  ((parse-tail tail)
+	   => (lambda (return+comment)
+		(values sexp
+			(string-trim (car return+comment))
+			(cond ((null? (cdr return+comment)) #f)
+			      (else (string-trim (cadr return+comment)))))))
+	  (else (values sexp #f #f)))))
+
 (define (format-signature line)
-  (let ((sexp (read (open-input-string line))))
+  (let-values (((sexp return comment) (parse-line line)))
     (if (symbol? sexp)
 	`(((dt id ,sexp)		; TODO: Escape the name here.
+	   (raw "&#8203;")
 	   ((dfn) ,sexp)))
 	(let ((name (car sexp))
 	      (arguments (cdr sexp)))
@@ -97,9 +131,10 @@
 	     ((dfn) ,name)
 	     " "
 	     ((span)
-	      ,@(map (lambda (a) `((var) ,a))
-		     arguments))
-	     ")"))))))
+	      ,@(cdr (append-map (lambda (a) `(" " ((var) ,a))) arguments))
+	      ")")
+	     ,@(if return `(((span) (raw " &xrarr; ") ,return)) '())
+	     ,@(if comment `(((p) ,comment)) '())))))))
 
 (define (read-all-lines)
   (let next-line ((accumulator '()))
