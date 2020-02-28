@@ -2,7 +2,7 @@
 #;
 (declare-file
   (language r7rs)
-  (implementations gauche chibi)
+  (implementations gauche chibi kawa)
   (scheme (path ".")))
 
 ;;; List all other tags contained inside a <pre> tag in each SRFI

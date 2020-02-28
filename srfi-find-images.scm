@@ -2,7 +2,7 @@
 #;
 (declare-file
   (language r7rs)
-  (implementations gauche chibi)
+  (implementations gauche chibi kawa)
   (scheme (path ".")))
 
 ;;; List the SRFIs containing one or more images.
