@@ -1,5 +1,5 @@
 (define-library (utilities)
-  (export writeln with-input-from-string generator->list string-contains-char?
+  (export writeln with-input-from-string string-contains-char? generator->list
           read-char? read-char* skip-char*)
   (import (scheme base) (scheme read) (scheme write))
   (begin
@@ -12,13 +12,13 @@
                         (parameterize ((current-input-port in))
                           (proc)))))
 
+    (define (string-contains-char? string char)
+      (not (not (member char (string->list string)))))
+
     (define (generator->list generator)
       (let loop ((xs '()))
         (let ((x (generator)))
           (if (eof-object? x) (reverse xs) (loop (cons x xs))))))
-
-    (define (string-contains-char? string char)
-      (not (not (member char (string->list string)))))
 
     (define (read-char? match?)
       (let ((char (peek-char)))
