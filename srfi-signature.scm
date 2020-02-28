@@ -36,6 +36,7 @@
         (srfi 130)
         (srfi 159 base)
         (chibi sxml))
+(import (utilities))
 
 (define (plist->alist plist)
   (let next ((accumulator '())
@@ -135,13 +136,6 @@
              ")"
              ,@(if return `(((span) (raw " &xrarr; ") ,return)) '())
              ,@(if comment `(((p) ,comment)) '())))))))
-
-(define (read-all-lines)
-  (let next-line ((accumulator '()))
-    (let ((line (read-line)))
-      (if (eof-object? line)
-          (reverse accumulator)
-          (next-line (cons line accumulator))))))
 
 (define (main args)
   (let ((lines (read-all-lines)))

@@ -26,8 +26,6 @@
 
 (define (read-all-tokens) (generator->list read-token))
 
-(define (read-all-lines) (generator->list read-line))
-
 (define (string->tokens s) (with-input-from-string s read-all-tokens))
 
 (define (main) (for-each writeln (map string->tokens (read-all-lines))))

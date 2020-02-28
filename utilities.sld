@@ -1,6 +1,6 @@
 (define-library (utilities)
   (export writeln with-input-from-string string-contains-char? generator->list
-          read-char? read-char* skip-char*)
+          read-all-lines read-char? read-char* skip-char*)
   (import (scheme base) (scheme read) (scheme write))
   (begin
 
@@ -19,6 +19,8 @@
       (let loop ((xs '()))
         (let ((x (generator)))
           (if (eof-object? x) (reverse xs) (loop (cons x xs))))))
+
+    (define (read-all-lines) (generator->list read-line))
 
     (define (read-char? match?)
       (let ((char (peek-char)))
