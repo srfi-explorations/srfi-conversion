@@ -36,7 +36,7 @@
         (srfi 130)
         (srfi 159 base)
         (chibi sxml))
-(import (utilities))
+(import (utilities) (signature-reader))
 
 (define (plist->alist plist)
   (let next ((accumulator '())
@@ -81,44 +81,17 @@
 
 (define html
   (case-lambda
-   ((tree) (html* 0 0 tree))
-   ((level tree) (html 0 level tree))
-   ((indentation level tree)
-    (if (positive? level)
-        (each nl
-              (each (space-to (* tab-amount indentation))
-                    (html* (+ indentation 1) (- level 1) tree)))
-        (html* indentation level tree)))))
-
-(define after-arrow
-  (let ((arrows '("->" "→" "⟶")))
-    (lambda (string)
-      (cond ((find (lambda (a) (string-prefix? a string)) arrows)
-             => (lambda (a)
-                  (string-trim-both (string-drop string (string-length a)))))
-            (else #f)))))
-
-(define (parse-tail string)
-  (cond ((after-arrow (string-trim string))
-         => (lambda (s) (string-split s " " 'strict-infix 1)))
-        (else #f)))
-
-(define (parse-line line)
-  (let* ((port (open-input-string line))
-         (sexp (read port))
-         (tail (read-line port)))
-    (cond ((not tail) (values sexp #f #f))
-          ((eof-object? tail) (values sexp #f #f))
-          ((parse-tail tail)
-           => (lambda (return+comment)
-                (values sexp
-                        (string-trim (car return+comment))
-                        (cond ((null? (cdr return+comment)) #f)
-                              (else (string-trim (cadr return+comment)))))))
-          (else (values sexp #f #f)))))
+    ((tree) (html* 0 0 tree))
+    ((level tree) (html 0 level tree))
+    ((indentation level tree)
+     (if (positive? level)
+         (each nl
+               (each (space-to (* tab-amount indentation))
+                     (html* (+ indentation 1) (- level 1) tree)))
+         (html* indentation level tree)))))
 
 (define (format-signature line)
-  (let-values (((sexp return comment) (parse-line line)))
+  (let-values (((sexp return comment) (string->3-part-signature line)))
     (if (symbol? sexp)
         `(((dt id ,sexp)                ; TODO: Escape the name here.
            (raw "&#8203;")
