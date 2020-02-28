@@ -22,8 +22,6 @@
 ;;    (list->string char-list)                -> string (R5RS)
 ;;    ...
 
-;; TODO: Handle return values/types as well as tags.
-
 ;; TODO: Escape everything necessary.
 
 ;; TODO: Accept HTML as input.  Strip it before generating output, but preserve
