@@ -19,7 +19,9 @@
     (define (standalone-char? char)
       (string-contains-char? standalone-chars char))
 
-    (define token-first-char? char-alphabetic?)
+    (define (token-first-char? char)
+      (or (char=? #\- char)  ; Needed to parse -> as a symbol.
+          (char-alphabetic? char)))
 
     (define (token-subsequent-char? char)
       (or (token-first-char? char) (char-numeric? char)
