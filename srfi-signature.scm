@@ -107,7 +107,15 @@
           (loop (cdr in) (if (and uscore? had-uscore?) out (cons char out))
                 uscore?)))))
 
-(define (unique-html-id string) string)  ; TODO
+(define unique-html-id
+  (let ((used '()))
+    (lambda (string)
+      (let loop ((n 1))
+        (let ((id (if (= n 1) string
+                      (string-append string "_" (number->string n)))))
+          (cond ((member id used) (loop (+ n 1)))
+                (else (set! used (cons id used))
+                      id)))))))
 
 (define (signature-html-id string)
   (unique-html-id (string-append "def_" (weird->uscore string))))
