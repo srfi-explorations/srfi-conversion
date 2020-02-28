@@ -5,9 +5,9 @@
   (import (utilities))
   (begin
 
-    (define short-arrow #\x2192)
-    (define long-arrow #\x27f6)
-    (define arrow-chars (list short-arrow long-arrow))
+    (define rightwards-arrow #\x2192)
+    (define long-rightwards-arrow #\x27F6)
+    (define arrow-chars (list rightwards-arrow long-rightwards-arrow))
     (define arrow-symbols
       (cons '|->| (map string->symbol (map string arrow-chars))))
     (define (arrow? obj) (member obj arrow-symbols))
