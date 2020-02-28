@@ -24,8 +24,8 @@
 
 ;; TODO: Escape everything necessary.
 
-;; TODO: Accept HTML as input.  Strip it before generating output, but preserve
-;; the ID (which may be encoded as an anchor name).
+;; TODO: Accept HTML as input.  Strip it before generating output, but
+;; preserve the ID (which may be encoded as an anchor name).
 
 (import (scheme base)
         (scheme case-lambda)

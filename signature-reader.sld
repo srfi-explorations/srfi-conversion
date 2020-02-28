@@ -35,7 +35,8 @@
         (lambda (string)
           (cond ((find (lambda (a) (string-prefix? a string)) arrows)
                  => (lambda (a)
-                      (string-trim-both (string-drop string (string-length a)))))
+                      (string-trim-both
+                       (string-drop string (string-length a)))))
                 (else #f)))))
 
     (define (parse-tail string)
@@ -50,10 +51,11 @@
               ((eof-object? tail) (values sexp #f #f))
               ((parse-tail tail)
                => (lambda (return+comment)
-                    (values sexp
-                            (string-trim (car return+comment))
-                            (cond ((null? (cdr return+comment)) #f)
-                                  (else (string-trim (cadr return+comment)))))))
+                    (values
+                     sexp
+                     (string-trim (car return+comment))
+                     (cond ((null? (cdr return+comment)) #f)
+                           (else (string-trim (cadr return+comment)))))))
               (else (values sexp #f #f)))))
 
     (define (string->3-part-signature line)
