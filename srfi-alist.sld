@@ -18,7 +18,7 @@
                                               "srfi-" num ".html")))
                      num (loop (+ num 1))))))
         (call-with-port
-         (open-input-file "srfi.tar")
+         (open-binary-input-file "srfi.tar")
          (lambda (port)
            (read-tar-entries
             (lambda (file-name file-data)
