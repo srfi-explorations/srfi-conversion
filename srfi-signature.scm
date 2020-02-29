@@ -97,22 +97,6 @@
                ,@(if return `((span ,long-rightwards-arrow ,return)) '())
                ,@(if comment `((p ,comment)) '()))))))
 
-(define (main/forms)
-  (for-each (lambda (line)
-              (let ((forms (with-input-from-string line read-all-forms)))
-                (writeln forms)))
-            (read-all-lines)))
-
-(define (main/3-part)
-  (for-each (lambda (line)
-              (let-values (((sexp return comment)
-                            (string->3-part-signature line)))
-                (writeln sexp)
-                (writeln return)
-                (writeln comment)
-                (newline)))
-            (read-all-lines)))
-
 (define (main)
   (let ((dts (map signature-string->sxml (read-all-lines))))
     (sxml-display-as-html '(link (@ (rel "stylesheet") (href "srfi.css"))))
