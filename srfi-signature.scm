@@ -39,15 +39,6 @@
         (chibi sxml))
 (import (utilities) (signature-reader))
 
-(define (plist->alist plist)
-  (let next ((accumulator '())
-             (plist plist))
-    (if (null? plist)
-        (reverse accumulator)
-        (next (cons (cons (car plist) (cadr plist))
-                    accumulator)
-              (cddr plist)))))
-
 (define (interpose sep xs) (cdr (append-map (lambda (x) (list sep x)) xs)))
 
 (define (ascii-alphanumeric? char)
@@ -55,48 +46,7 @@
       (char<=? #\a char #\z)
       (char<=? #\0 char #\9)))
 
-(define (html-element tag attributes body)
-  (each "<"
-        tag
-        (joined/prefix
-         (lambda (a) (each (car a) "=" (written (html-escape (cdr a)))))
-         (plist->alist attributes)
-         " ")
-        ">"
-        body
-        "</"
-        tag
-        ">"))
-
-(define (html* indentation level tree)
-  (define (descend tree) (html indentation level tree))
-  (cond ((number? tree) tree)
-        ((string? tree) (html-escape tree))
-        ((symbol? tree) (html-escape (symbol->string tree)))
-        ((pair? tree)
-         (cond ((and (pair? (car tree))
-                     (or (symbol? (caar tree))
-                         (string? (caar tree))))
-                (html-element (caar tree)
-                              (cdar tree)
-                              (joined descend (cdr tree))))
-               ((eq? (car tree) 'raw)
-                (each-in-list (cdr tree)))
-               (else (joined descend tree))))
-        (else (error "Malformed HTML tree." tree))))
-
 (define tab-amount 2)
-
-(define html
-  (case-lambda
-    ((tree) (html* 0 0 tree))
-    ((level tree) (html 0 level tree))
-    ((indentation level tree)
-     (if (positive? level)
-         (each nl
-               (each (space-to (* tab-amount indentation))
-                     (html* (+ indentation 1) (- level 1) tree)))
-         (html* indentation level tree)))))
 
 (define (weird->uscore string)
   (define (mangle char)
