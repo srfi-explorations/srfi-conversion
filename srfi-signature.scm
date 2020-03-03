@@ -48,27 +48,29 @@
 
 (define tab-amount 2)
 
-(define (weird->uscore string)
+(define (weird->hyphen string)
   (define (mangle char)
-    (if (ascii-alphanumeric? char) (char-downcase char) #\_))
-  (let loop ((in (string->list string)) (out '()) (had-uscore? #t))
+    (cond ((char=? char #\-) char)
+	  ((ascii-alphanumeric? char) (char-downcase char))
+	  (else #\-)))
+  (let loop ((in (string->list string)) (out '()) (had-hyphen? #t))
     (if (null? in) (list->string (reverse out))
-        (let* ((char (mangle (car in))) (uscore? (char=? #\_ char)))
-          (loop (cdr in) (if (and uscore? had-uscore?) out (cons char out))
-                uscore?)))))
+        (let* ((char (mangle (car in))) (hyphen? (char=? #\- char)))
+          (loop (cdr in) (if (and hyphen? had-hyphen?) out (cons char out))
+                hyphen?)))))
 
 (define unique-html-id
   (let ((used '()))
     (lambda (string)
       (let loop ((n 1))
         (let ((id (if (= n 1) string
-                      (string-append string "_" (number->string n)))))
+                      (string-append string "-" (number->string n)))))
           (cond ((member id used) (loop (+ n 1)))
                 (else (set! used (cons id used))
                       id)))))))
 
 (define (signature-html-id string)
-  (unique-html-id (string-append "def_" (weird->uscore string))))
+  (unique-html-id (string-append "def-" (weird->hyphen string))))
 
 (define zero-width-space "\x200B;")
 (define long-rightwards-arrow "\x27F6;")  ; &xrarr;
