@@ -1,34 +1,19 @@
 #! /usr/bin/env chibi-scheme
 
-;;;; Given a signature on the input line, generate HTML with the recommended
-;;;; markup.
+#| Given input signatures, generate HTML with the recommended markup.
 
-;; Accept input in these forms:
+* TODO
 
-;;    (exit return-code)
-;;    ...
+  - Automate testing.
 
-;;    (string->vector string)                 -> char-vector (R7RS-small)
-;;    (string->vector string start)           -> char-vector
-;;    (string->vector string start end)       -> char-vector
-;;    (string->list string)                   -> char-list   (R7RS-small)
-;;    (string->list string start)             -> char-list
-;;    (string->list string start end)         -> char-list
-;;    ...
+  - Specify the input syntax precisely.
 
-;;    (vector->string char-vector)            -> string (R7RS-small)
-;;    (vector->string char-vector start)      -> string
-;;    (vector->string char-vector start end)  -> string
-;;    (list->string char-list)                -> string (R5RS)
-;;    ...
+    - Handle macros expressed with square brackets.
 
-;; TODO: Escape everything necessary.
-
-;; TODO: Accept HTML as input.  Strip it before generating output, but
-;; preserve the ID (which may be encoded as an anchor name).
+* See "example-signatures.scm" for example input.
+|#
 
 (import (scheme base)
-        (scheme case-lambda)
         (scheme char)
         (scheme process-context)
         (scheme read)
@@ -36,10 +21,21 @@
         (srfi 1)
         (srfi 130)
         (srfi 159 base)
-        (chibi sxml))
-(import (utilities) (signature-reader))
+        (chibi sxml)
+	(srfi-index)
+	(utilities))
 
-(define (interpose sep xs) (cdr (append-map (lambda (x) (list sep x)) xs)))
+(define (prepose sep xs)
+  (append-map (lambda (x) (list sep x)) xs))
+
+(define (space-prepose xs)
+  (prepose " " xs))
+
+(define (interpose sep xs)
+  (if (null? xs) '() (cdr (prepose sep xs))))
+
+(define (comma-separate xs) (interpose ", " xs))
+(define (space-separate xs) (interpose " " xs))
 
 (define (ascii-alphanumeric? char)
   (or (char<=? #\A char #\Z)
@@ -75,47 +71,74 @@
 (define zero-width-space "\x200B;")
 (define long-rightwards-arrow "\x27F6;")  ; &xrarr;
 
-(define (signature-string->sxml string)
-  (let-values (((sexp return comment) (string->3-part-signature string)))
-    (let* ((name-only? (symbol? sexp))
-           (name (symbol->string (if name-only? sexp (car sexp))))
-           (arguments (if name-only? #f (map symbol->string (cdr sexp))))
-           (html-id (signature-html-id name)))
-      (if name-only?
-          `(dt (@ (id ,html-id))
-               (b "Variable")
-               " "
-               (dfn ,name))
-          `(dt (@ (id ,html-id))
-               "("
-               (dfn ,name)
-               ,@(if (null? arguments)
-		     '()
-                     `(" "
-		       (span ,@(interpose
-				" "
-				(map (lambda (a) `(var ,a)) arguments)))))
-               ")"
-               ,@(if return `((span ,long-rightwards-arrow ,return)) '())
-               ,@(if comment `((p ,comment)) '()))))))
+(define (signature->sxml signature)
+  (define (parenthesized html-id name arguments returns note)
+    `(dt (@ (id ,html-id))
+	 "("
+	 (dfn ,name)
+	 ,(if (null? arguments)
+	      `(")" (span))
+	      `(span ,arguments ")"))
+	 ,@(if returns
+	       `((span (@ (class "returns"))
+		       " "
+		       ,long-rightwards-arrow
+		       " "
+		       ,@(comma-separate returns)))
+	       '())
+	 ,@(if note `(" " (p ,note)) '())))
+  (define (syntax-args arguments literals)
+    (let descend ((arguments arguments))
+      (cond ((null? arguments) '())
+	    ((pair? arguments)
+	     `("("
+	       ,@(space-separate (map descend arguments))
+	       ")"))
+	    ((symbol? arguments)
+	     (cond ((eq? arguments '...) arguments)
+		   ((memq arguments literals)
+		    `(code ,arguments))
+		   (else `(var ,arguments))))
+	    (else (error "Unexpected macro argument." arguments)))))
+  (let* ((arguments (signature/arguments signature))
+	 (name (signature/name signature))
+	 (note (signature/note signature))
+	 (returns (signature/returns signature))
+	 (type (signature/type signature))
+	 (html-id (signature-html-id (symbol->string name))))
+    (case (signature/type signature)
+      ((other) `(dt (@ (id ,html-id)) (dfn ,name)))
+      ((procedure)
+       (parenthesized html-id
+		      name
+		      (space-prepose (map (lambda (a) `(var ,a)) arguments))
+		      returns
+		      note))
+      ((syntax)
+       (parenthesized html-id
+		      name
+		      (syntax-args arguments (signature/literals signature))
+		      returns
+		      note))
+      (else (error "Unrecognized type." type)))))
 
 (define (main)
-  (let ((dts (map signature-string->sxml (read-all-lines))))
+  (let ((signatures (map list->signature (read-all-forms))))
     (sxml-display-as-html '(link (@ (rel "stylesheet") (href "srfi.css"))))
     (newline)
-    (case (length dts)
-      ((0))
-      ((1)
-       (sxml-display-as-html (car dts))
-       (newline))
-      (else
-       ;; TODO: Use SXML library or auto-formatter to indent HTML.
-       (disp "<div>")
-       (for-each (lambda (dt)
-                   (display (make-string tab-amount #\space))
-                   (sxml-display-as-html dt)
-                   (newline))
-                 dts)
-       (disp "</div>")))))
+    (display "<dl class=\"signatures\">")
+    (for-each (lambda (s)
+		(cond ((pair? s)
+		       (disp "<div>")
+		       (for-each (lambda (s*)
+				   (display (make-string tab-amount #\space))
+				   (sxml-display-as-html (signature->sxml s*))
+				   (newline))
+				 s)
+		       (disp "</div>"))
+		      (else (sxml-display-as-html (signature->sxml s))
+			    (newline))))
+	      signatures)
+    (display "</dl>")))
 
 (main)

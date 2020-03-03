@@ -1,7 +1,8 @@
 (define-library (utilities)
   (export disp writeln with-input-from-string string-contains-char?
           hash-table-increment!
-          generator->list read-all-lines read-char? read-char* skip-char*)
+          generator->list read-all-forms read-all-lines read-char? read-char*
+	  skip-char*)
   (import (scheme base) (scheme read) (scheme write) (srfi 69))
   (begin
 
@@ -27,6 +28,8 @@
           (if (eof-object? x) (reverse xs) (loop (cons x xs))))))
 
     (define (read-all-lines) (generator->list read-line))
+
+    (define (read-all-forms) (generator->list read))
 
     (define (read-char? match?)
       (let ((char (peek-char)))
