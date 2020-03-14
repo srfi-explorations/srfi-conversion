@@ -1,3 +1,5 @@
+(feature greek-letters "Greek letters")
+(feature math-unicode "Inline math formulas as Unicode")
 (feature math-image "Image of a math formula")
 (feature block-image "Non-math image used as a block element")
 (feature inline-image "Non-math image used as an inline element")
@@ -12,9 +14,13 @@
 (feature multi-level-lists "Lists within lists")
 (feature ascii-art-flowchart "Contains a flowchart as ASCII art")
 (feature ordered-list-letters "Ordered list <ol> using letters, not numbers")
+(feature multi-paragrpah-list-item "List items with paragraph breaks")
 
 (feature list-of-references "List of citations at end of SRFI")
+(feature inline-citation "Inline references in square brackets")
 
+(feature custom-kind "Definition that is proc, var, type, or syntax")
+(feature define-type "The SRFI defines a new Scheme datatype")
 (feature define-syntax "The SRFI defines a Scheme macro")
 (feature read-syntax "The SRFI defines new reader syntax")
 
@@ -24,12 +30,14 @@
 
 (feature figure-caption "A table or diagram is captioned")
 
+(feature superseded-by "Mentions that it's superseded by another SRFI")
 (feature post-finalization-note "Contains a post-finalization note")
 
 (feature custom-css-embedded "Has custom CSS styles embedded in the HTML")
 (feature custom-css-file "Has custom .css file included from the HTML")
 (feature custom-css-classes "Uses custom class= attributes")
 
+(feature implementation-copyright "Implementation license printed separately")
 (feature footer-author "Has author under the final <hr>")
 (feature footer-last-modified "Has timestamp under the final <hr>")
 (feature custom-status "Status section includes non-standard text")
@@ -193,65 +201,139 @@
     footer-last-modified)
 
 (29 "Localization (2002)"
-)
+    author-email
+    footer-author
+    footer-last-modified)
 
 (30 "Nested Multi-line Comments (2002)"
-)
+    read-syntax
+    grammar
+    footer-last-modified)
 
 (31 "A special form `rec' for recursive evaluation (2002)"
-)
+    abstract-link
+    inline-citation
+    list-of-references
+    footer-author)
 
 (32 "Sort Libraries (2003, withdrawn)"
-)
+    multi-paragrpah-list-item
+    definition-list
+    table
+    list-of-references
+    implementation-copyright)
 
 (33 "Integer Bitwise-operation Library (2003, withdrawn)"
-)
+    procedure-index
+    definition-list
+    table
+    multi-paragrpah-list-item
+    multi-level-lists
+    list-of-references
+    implementation-copyright)
 
 (34 "Exception Handling for Programs (2002)"
-)
+    multiple-authors
+    abstract-list
+    abstract-link
+    define-syntax
+    list-of-references)
 
 (35 "Conditions (2002)"
-)
+    multiple-authors
+    define-syntax
+    define-type
+    list-of-references)
 
 (36 "I/O Conditions (2002)"
-)
+    abstract-link
+    multi-level-lists
+    define-type
+    table
+    list-of-references)
 
-(37 "args-fold: a program argument processor (2003)"
-)
+(37 "args-fold: a program argument processor (2003)")
 
 (38 "External Representation for Data With Shared Structure (2003)"
-)
+    grammar
+    footer-last-modified)
 
 (39 "Parameter objects (2003)"
-)
+    define-syntax)
 
 (40 "A Library of Streams (2017, withdrawn)"
-)
+    superseded-by
+    table
+    list-of-references
+    author-residence
+    footer-last-modified)
 
 (41 "Streams (2008)"
+    post-finalization-note
     block-image
-    math-image)
+    math-image
+    math-unicode
+    greek-letters
+    syntax
+    custom-kind
+    list-of-references
+    implementation-copyright)
 
 (42 "Eager Comprehensions (2003)"
-)
+    abstract-link
+    abstract-pre
+    inline-citation
+    custom-kind
+    table
+    definition-list
+    list-of-references
+    author-email
+    footer-author
+    footer-last-modified)
 
 (43 "Vector library (2004)"
-)
+    abstract-list
+    abstract-link
+    procedure-index
+    definition-list
+    inline-citation
+    greek-letters
+    list-of-references)
 
 (44 "Collections (2004)"
-)
+    ascii-art-flowchart
+    definition-list
+    list-of-references
+    author-email
+    footer-author
+    footer-last-modified)
 
 (45 "Primitives for Expressing Iterative Lazy Algorithms (2004)"
-)
+    abstract-link
+    abstract-pre
+    inline-citation
+    list-of-references
+    author-email
+    footer-author
+    footer-last-modified)
 
 (46 "Basic Syntax-rules Extensions (2005)"
-)
+    grammar
+    define-syntax
+    math-unicode
+    list-of-references
+    footer-last-modified)
 
 (47 "Array (2004)"
-)
+    superseded-by
+    footer-last-modified)
 
 (48 "Intermediate Format Strings (2004)"
-)
+    abstract-link
+    table
+    author-email
+    footer-author
+    footer-last-modified)
 
 (49 "Indentation-sensitive syntax (2005)"
 )
