@@ -20,6 +20,7 @@
 
 (feature list-of-references "List of citations at end of SRFI")
 (feature inline-citation "Inline references in square brackets")
+(feature footnote "Footnote referenced from the SRFI text")
 
 (feature c-code "Contains C code")
 
@@ -31,6 +32,7 @@
 (feature abstract-list "Abstract contains a HTML list")
 (feature abstract-link "Abstract contains a HTML link")
 (feature abstract-pre "Abstract contains preformatted text")
+(feature abstract-table "Abstract contains a table")
 
 (feature figure-caption "A table or diagram is captioned")
 
@@ -654,94 +656,190 @@
     list-of-references)
 
 (100 "define-lambda-object (2010)"
-)
+     grammar
+     list-of-references)
 
 (101 "Purely Functional Random-Access Pairs and Lists (2013)"
-)
+     abstract-link
+     blockquote
+     list-of-references)
 
 (102 "Procedure Arity Inspection (2013, withdrawn)"
-)
+     list-of-references)
 
 (103 "Library Files (2013, withdrawn)"
-)
+     custom-status
+     blockquote
+     list-of-references)
 
 (104 "Library Files Utilities (2010, withdrawn)"
-)
+     abstract-link
+     list-of-references)
 
 (105 "Curly-infix-expressions (2012)"
-)
+     multiple-authors
+     author-website
+     abstract-pre
+     math-unicode
+     grammar
+     read-syntax)
 
 (106 "Basic socket interface (2013)"
-)
+     post-finalization-note
+     procedure-index
+     definition-list
+     table
+     list-of-references
+     author-email
+     footer-author
+     footer-last-modified)
 
 (107 "XML reader syntax (2013)"
-)
+     custom-css-embedded
+     author-email
+     footer-author
+     read-syntax
+     grammar
+     custom-highlight-font
+     math-unicode)
 
 (108 "Named quasi-literal constructors (2013)"
-)
+     abstract-link
+     custom-css-embedded
+     author-email
+     footer-author
+     read-syntax
+     grammar
+     custom-highlight-font
+     math-unicode)
 
 (109 "Extended string quasi-literals (2013)"
-)
+     abstract-link
+     custom-css-embedded
+     author-email
+     footer-author
+     read-syntax
+     grammar
+     custom-highlight-font
+     math-unicode)
 
 (110 "Sweet-expressions (t-expressions) (2013)"
-)
+     multiple-authors
+     author-website
+     custom-status
+     abstract-link
+     abstract-pre
+     abstract-table
+     read-syntax
+     table
+     grammar
+     multi-level-list
+     blockquote)
 
 (111 "Boxes (2013)"
-)
+     table
+     footer-last-modified)
 
 (112 "Environment Inquiry (2013)"
-)
+     post-finalization-note
+     footer-last-modified)
 
 (113 "Sets and bags (2014)"
-)
+     post-finalization-note
+     procedure-index)
 
 (114 "Comparators (2017, withdrawn)"
-)
+     custom-status
+     superseded-by
+     abstract-link
+     procedure-index
+     multi-level-list)
 
 (115 "Scheme Regular Expressions (2014)"
-)
+     post-finalization-note
+     abstract-link
+     procedure-index
+     definition-list
+     custom-highlight-font
+     grammar
+     list-of-references)
 
 (116 "Immutable List Library (2014)"
-)
+     custom-css-embedded
+     author-email
+     author-website
+     post-finalization-note
+     abstract-link
+     procedure-index
+     definition-list
+     list-of-references)
 
 (117 "Queues based on lists (2015)"
-)
+     author-email
+     post-finalization-note
+     footer-last-modified)
 
 (118 "Simple adjustable-size strings (2015)"
-)
+     custom-css-embedded
+     author-email
+     footer-author)
 
 (119 "wisp: simpler indentation-sensitive scheme (2015)"
-)
+     table
+     custom-highlight-font
+     footnote
+     footer-last-modified)
 
-(120 "Timer APIs (2015)"
-)
+(120 "Timer APIs (2015)")
 
 (121 "Generators (2019, withdrawn)"
-)
+     multiple-authors
+     superseded-by
+     post-finalization-note
+     math-unicode
+     footer-last-modified)
 
 (122 "Nonempty Intervals and Generalized Arrays (2016)"
-)
+     custom-status
+     math-unicode
+     definition-list
+     procedure-index
+     list-of-references)
 
 (123 "Generic accessor and modifier operators (2015)"
-)
+     author-email
+     custom-status
+     read-syntax
+     define-syntax)
 
 (124 "Ephemerons (2015)"
-)
+     list-of-references)
 
 (125 "Intermediate hash tables (2015)"
-)
+     multiple-authors
+     post-finalization-note
+     multi-level-list
+     procedure-index
+     footer-last-modified)
 
 (126 "R6RS-based hashtables (2016)"
-)
+     author-email
+     post-finalization-note)
 
 (127 "Lazy Sequences (2016)"
-)
+     post-finalization-note
+     abstract-link
+     procedure-index
+     definition-list
+     multi-level-list)
 
 (128 "Comparators (reduced) (2016)"
-)
+     post-finalization-note
+     procedure-index
+     multi-level-list)
 
 (129 "Titlecase procedures (2016)"
-)
+     custom-status)
 
 (130 "Cursor-based string library (2016)"
 )
