@@ -2,92 +2,195 @@
 (feature block-image "Non-math image used as a block element")
 (feature inline-image "Non-math image used as an inline element")
 
+(feature procedure-index "Contains a procedure index")
+(feature grammar "Contains a BNF-style grammar")
+(feature acronym "Contains acronyms with mousable expansions")
+(feature table "Tables using a proportional (non-fixed-width) font")
+(feature blockquote "Uses HTML <blockquote>")
+(feature definition-list "Has list of terms and their expansions")
+(feature denotational-semantics "Contains denotational semantics")
+(feature multi-level-lists "Lists within lists")
+(feature ascii-art-flowchart "Contains a flowchart as ASCII art")
+(feature ordered-list-letters "Ordered list <ol> using letters, not numbers")
+
+(feature list-of-references "List of citations at end of SRFI")
+
+(feature define-syntax "The SRFI defines a Scheme macro")
+(feature read-syntax "The SRFI defines new reader syntax")
+
+(feature abstract-list "Abstract contains a HTML list")
+(feature abstract-link "Abstract contains a HTML link")
+(feature abstract-pre "Abstract contains preformatted text")
+
+(feature figure-caption "A table or diagram is captioned")
+
+(feature post-finalization-note "Contains a post-finalization note")
+
+(feature custom-css-embedded "Has custom CSS styles embedded in the HTML")
+(feature custom-css-file "Has custom .css file included from the HTML")
+(feature custom-css-classes "Uses custom class= attributes")
+
+(feature footer-author "Has author under the final <hr>")
+(feature footer-last-modified "Has timestamp under the final <hr>")
+(feature custom-status "Status section includes non-standard text")
+(feature author-email "Has author's email address or email link")
+(feature author-residence "Has author's affiliation or contact info (non-email)")
+(feature multiple-authors "Has more than one author")
+
 (0 "Feature-based conditional expansion construct (1999)"
-)
+   abstract-list
+   abstract-link
+   grammar
+   define-syntax
+   footer-last-modified)
 
 (1 "List Library (1999)"
-)
+   custom-css-embedded
+   author-email
+   multi-level-lists
+   acronym
+   table
+   procedure-index
+   blockquote
+   custom-css-classes
+   definition-list
+   list-of-references)
 
 (2 "AND-LET*: an AND with local bindings, a guarded LET* special form (1999)"
-)
+   define-syntax
+   grammar
+   denotational-semantics
+   footer-last-modified)
 
 (3 "List-Set Library (1999, withdrawn)"
-)
+   custom-status
+   abstract-list)
 
 (4 "Homogeneous numeric vector datatypes (1999)"
-)
+   definition-list)
 
 (5 "A compatible let form with signatures and rest arguments (1999)"
-)
+   define-syntax
+   grammar)
 
 (6 "Basic String Ports (1999)"
-)
+   abstract-list
+   footer-last-modified)
 
 (7 "Feature-based program configuration language (1999)"
-)
+   define-syntax
+   grammar)
 
 (8 "receive: Binding to multiple values (1999)"
-)
+   define-syntax
+   author-email
+   author-residence)
 
 (9 "Defining Record Types (1999)"
-)
+   define-syntax
+   grammar)
 
 (10 "#, external form (2000)"
-)
+    read-syntax
+    grammar
+    author-email
+    footer-author)
 
 (11 "Syntax for receiving multiple values (2000)"
-)
+    define-syntax
+    footer-last-modified)
 
 (12 "Exception Handling (2000, withdrawn)"
-)
+    multiple-authors
+    define-syntax
+    footer-last-modified)
 
 (13 "String Libraries (2000)"
-)
+    custom-css-embedded
+    author-email
+    multi-level-lists
+    acronym
+    table
+    procedure-index
+    custom-css-classes
+    definition-list
+    list-of-references)
 
 (14 "Character-set Library (2000)"
-)
+    custom-css-embedded
+    author-email
+    multi-level-lists
+    acronym
+    table
+    procedure-index
+    custom-css-classes
+    definition-list
+    list-of-references
+    post-finalization-note)
 
 (15 "Syntax for dynamic scoping (2000, withdrawn)"
-)
+    define-syntax
+    footer-last-modified)
 
 (16 "Syntax for procedures of variable arity (2000)"
-)
+    define-syntax
+    footer-last-modified)
 
 (17 "Generalized set! (2000)"
-)
+    define-syntax
+    footer-last-modified)
 
 (18 "Multithreading support (2001)"
-)
+    abstract-list
+    ascii-art-flowchart
+    definition-list)
 
 (19 "Time Data Types and Procedures (2000)"
-)
+    definition-list
+    table
+    figure-caption
+    footer-last-modified)
 
 (20 "Simple object system (2001, withdrawn)"
-)
+    abstract-link)
 
 (21 "Real-time multithreading support (2001)"
-)
+    abstract-link
+    ascii-art-flowchart)
 
 (22 "Running Scheme Scripts on Unix (2002)"
-)
+    abstract-list
+    grammar
+    multiple-authors)
 
 (23 "Error reporting mechanism (2001)"
-)
+    footer-last-modified)
 
 (24 "Define-syntax in local lexical scopes (2002, withdrawn)"
-)
+    grammar
+    footer-last-modified)
 
 (25 "Multi-dimensional Array Primitives (2002)"
-)
+    footer-last-modified)
 
 (26 "Notation for Specializing Parameters without Currying (2002)"
-)
+    abstract-pre
+    author-email
+    footer-author
+    footer-last-modified)
 
 (27 "Sources of Random Bits (2002)"
-)
+    abstract-list
+    ordered-list-letters
+    list-of-references
+    author-email
+    footer-author
+    footer-last-modified)
 
 (28 "Basic Format Strings (2002)"
-)
+    author-email
+    footer-author
+    footer-last-modified)
 
 (29 "Localization (2002)"
 )
