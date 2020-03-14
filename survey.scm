@@ -13,6 +13,7 @@
 (feature denotational-semantics "Contains denotational semantics")
 (feature multi-level-lists "Lists within lists")
 (feature ascii-art-flowchart "Contains a flowchart as ASCII art")
+(feature unicode-table "Table mocked up using preformatted Unicode text")
 (feature ordered-list-letters "Ordered list <ol> using letters, not numbers")
 (feature multi-paragraph-list-item "List items with paragraph breaks")
 (feature numbered-sections "Sections are explicitly numbered 1,2,3,...")
@@ -31,6 +32,7 @@
 
 (feature abstract-list "Abstract contains a HTML list")
 (feature abstract-link "Abstract contains a HTML link")
+(feature abstract-highlight "Abstract contains highlighted text")
 (feature abstract-pre "Abstract contains preformatted text")
 (feature abstract-table "Abstract contains a table")
 
@@ -44,6 +46,7 @@
 (feature custom-css-classes "Uses custom class= attributes")
 
 (feature implementation-copyright "Implementation license printed separately")
+(feature custom-author "Complex author info (based on; kind of contribution)")
 (feature footer-author "Has author under the final <hr>")
 (feature footer-last-modified "Has timestamp under the final <hr>")
 (feature custom-status "Status section includes non-standard text")
@@ -842,175 +845,271 @@
      custom-status)
 
 (130 "Cursor-based string library (2016)"
-)
+     custom-css-embedded
+     custom-status
+     abstract-link
+     procedure-index
+     multi-paragraph-list-item
+     blockquote
+     list-of-references)
 
 (131 "ERR5RS Record Syntax (reduced) (2016)"
-)
+     multiple-authors
+     grammar
+     define-syntax)
 
 (132 "Sort Libraries (2016)"
-)
+     custom-author
+     custom-status
+     definition-list
+     table
+     implementation-copyright)
 
 (133 "Vector Library (R7RS-compatible) (2016)"
-)
+     custom-author
+     custom-status
+     abstract-link
+     post-finalization-note
+     procedure-index
+     definition-list
+     inline-citation
+     greek-letters
+     list-of-references)
 
 (134 "Immutable Deques (2016)"
-)
+     multiple-authors
+     custom-status
+     procedure-index)
 
 (135 "Immutable Texts (2016)"
-)
+     custom-css-embedded
+     author-email
+     abstract-link
+     procedure-index
+     definition-list
+     blockquote
+     math-unicode
+     list-of-references)
 
 (136 "Extensible record types (2016)"
-)
+     grammar
+     define-syntax)
 
 (137 "Minimal Unique Types (2016)"
-)
+     multiple-authors
+     post-finalization-note)
 
 (138 "Compiling Scheme programs to executables (2016)"
-)
+     definition-list)
 
 (139 "Syntax parameters (2016)"
-)
+     define-syntax)
 
 (140 "Immutable Strings (2017)"
-)
+     custom-css-embedded
+     post-finalization-note
+     abstract-link
+     abstract-list
+     author-email
+     footer-author)
 
 (141 "Integer division (2016)"
-)
+     multiple-authors)
 
 (142 "Bitwise Operations (2017, withdrawn)"
-)
+     superseded-by
+     abstract-link
+     procedure-index
+     table)
 
 (143 "Fixnums (2017)"
-)
+     post-finalization-note)
 
 (144 "Flonums (2017)"
-)
+     multiple-authors
+     post-finalization-note)
 
 (145 "Assumptions (2017)"
-)
+     post-finalization-note)
 
 (146 "Mappings (2018)"
-)
+     multiple-authors
+     post-finalization-note
+     procedure-index)
 
 (147 "Custom macro transformers (2017)"
-)
+     post-finalization-note)
 
 (148 "Eager syntax-rules (2017)"
-)
+     procedure-index)
 
 (149 "Basic Syntax-rules Template Extensions (2017)"
-)
+     post-finalization-note
+     grammar)
 
 (150 "Hygienic ERR5RS Record Syntax (reduced) (2018)"
-)
+     definition-list
+     grammar
+     multi-level-list)
 
 (151 "Bitwise Operations (2017)"
-)
+     post-finalization-note
+     abstract-link
+     abstract-list
+     procedure-index
+     table)
 
 (152 "String Library (reduced) (2017)"
-)
+     custom-css-embedded
+     author-email
+     post-finalization-note
+     procedure-index
+     blockquote)
 
 (153 "Ordered Sets (2018, withdrawn)"
-)
+     procedure-index)
 
 (154 "First-class dynamic extents (2018)"
-)
+     abstract-link)
 
-(155 "Promises (2018)"
-)
+(155 "Promises (2018)")
 
 (156 "Syntactic combiners for binary predicates (2017)"
-)
+     abstract-pre
+     blockquote)
 
 (157 "Continuation marks (2018)"
-)
+     post-finalization-note)
 
 (158 "Generators and Accumulators (2017)"
-)
+     multiple-authors
+     post-finalization-note
+     footer-last-modified)
 
 (159 "Combinator Formatting (2018)"
-)
+     post-finalization-note
+     procedure-index
+     definition-list
+     custom-highlight-font
+     list-of-references)
 
 (160 "Homogeneous numeric vector libraries (2019)"
-)
+     multiple-authors
+     custom-author
+     post-finalization-note
+     definition-list)
 
 (161 "Unifiable Boxes (2019)"
-)
+     abstract-link
+     table)
 
 (162 "Comparators sublibrary (2019)"
-)
+     custom-status)
 
 (163 "Enhanced array literals (2019)"
-)
+     custom-css-embedded
+     abstract-link
+     custom-highlight-font
+     unicode-table)
 
 (164 "Enhanced multi-dimensional Arrays (2019)"
-)
+     custom-css-embedded
+     abstract-link
+     custom-highlight-font
+     unicode-table
+     blockquote
+     author-email
+     footer-author)
 
-(165 "The Environment Monad (2019)"
-)
+(165 "The Environment Monad (2019)")
 
 (166 "Monadic Formatting (draft)"
-)
+     procedure-index
+     definition-list
+     custom-highlight-font
+     unicode-table
+     list-of-references)
 
 (167 "Ordered Key Value Store (2019)"
-)
+     table
+     definition-list)
 
 (168 "Generic Tuple Store Database (2019)"
-)
+     table
+     definition-list)
 
 (169 "Underscores in numbers (2019)"
-)
+     read-syntax
+     grammar)
 
 (170 "POSIX API (draft)"
-)
+     multiple-authors
+     custom-author
+     implementation-copyright)
 
 (171 "Transducers (2019)"
-)
+     author-email)
 
 (172 "Two Safer Subsets of R7RS (2019)"
-)
+     author-email
+     abstract-highlight)
 
-(173 "Hooks (2019)"
-)
+(173 "Hooks (2019)")
 
 (174 "POSIX Timespecs (2019)"
-)
+     author-email
+     post-finalization-note
+     abstract-link
+     definition-list)
 
 (175 "ASCII character library (2019)"
-)
+     table)
 
 (176 "Version flag (2020)"
-)
+     table)
 
 (177 "Portable keyword arguments (draft)"
-)
+     table)
 
 (178 "Bitvector library (draft)"
-)
+     definition-list)
 
 (179 "Nonempty Intervals and Generalized Arrays (Updated) (draft)"
-)
+     abstract-link
+     math-unicode
+     procedure-index
+     list-of-references)
 
-(180 "JSON (draft)"
-)
+(180 "JSON (draft)")
 
-(181 "Custom ports (draft)"
-)
+(181 "Custom ports (draft)")
 
 (182 "ADBMAL, ALET, and ALET* (draft)"
-)
+     define-syntax
+     grammar
+     list-of-references)
 
 (183 "Another format procedure, Fox (draft)"
-)
+     grammar
+     list-of-references)
 
 (184 "define-record-lambda (draft)"
-)
+     define-syntax
+     grammar
+     list-of-references)
 
 (185 "Linear adjustable-size strings (draft)"
-)
+     custom-css-embedded
+     author-email
+     footer-author)
 
 (186 "Transcoders and transcoded ports (draft)"
-)
+     multiple-authors
+     custom-author
+     implementation-copyright)
 
 (187 "ALAMBDA and ADEFINE (draft)"
-)
+     abstract-link
+     define-syntax
+     grammar
+     list-of-references)
