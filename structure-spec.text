@@ -1,0 +1,81 @@
+Proposed HTML structure for SRFI documents
+==========================================
+
+
+Abstract
+--------
+
+The abstract is one or more <p> elements.
+
+
+Status section
+--------------
+
+Status labels:
+
+* Received: {date}
+* Draft: {date}
+* Draft: {date}--{date}
+* Draft extended: {date}--{date}
+* Draft #{number] published: {date}
+* Revised: {date}
+* Revised to fix errata: {date} ({erratum})
+* Finalized: {date}
+* Withdrawn: {date}
+* Converted to HTML: {date}
+
+
+Survey table
+------------
+
+Use <table> element with "table" CSS class. No <tbody>.
+
+
+Two columns side by side
+------------------------
+
+
+Diagram
+-------
+
+* ASCII art inside <pre>
+* Unicode art inside <pre>
+* Embedded image as a block-level element
+
+
+Procedure definition
+--------------------
+
+
+Constant definition
+-------------------
+
+
+Variable definition
+-------------------
+
+
+Macro definition
+----------------
+
+
+Condition type definition
+-------------------------
+
+
+Type definition
+---------------
+
+
+Note/caution/warning
+--------------------
+
+NOTE:
+
+
+Inline citation
+---------------
+
+
+List of references
+------------------
