@@ -14,7 +14,7 @@
 (feature multi-level-lists "Lists within lists")
 (feature ascii-art-flowchart "Contains a flowchart as ASCII art")
 (feature ordered-list-letters "Ordered list <ol> using letters, not numbers")
-(feature multi-paragrpah-list-item "List items with paragraph breaks")
+(feature multi-paragraph-list-item "List items with paragraph breaks")
 (feature numbered-sections "Sections are explicitly numbered 1,2,3,...")
 (feature custom-highlight-font "Parts of SRFI are highlighted in red font, etc.")
 
@@ -222,7 +222,7 @@
     footer-author)
 
 (32 "Sort Libraries (2003, withdrawn)"
-    multi-paragrpah-list-item
+    multi-paragraph-list-item
     definition-list
     table
     list-of-references
@@ -232,7 +232,7 @@
     procedure-index
     definition-list
     table
-    multi-paragrpah-list-item
+    multi-paragraph-list-item
     multi-level-lists
     list-of-references
     implementation-copyright)
@@ -538,68 +538,120 @@
     footer-author)
 
 (79 "Primitive I/O (2006, withdrawn)"
-)
+    abstract-link
+    multi-level-list
+    define-type
+    define-syntax
+    blockquote
+    list-of-references)
 
 (80 "Stream I/O (2006, withdrawn)"
-)
+    abstract-link
+    abstract-list
+    define-syntax
+    blockquote
+    list-of-references)
 
 (81 "Port I/O (2006, withdrawn)"
-)
+    abstract-link
+    abstract-list
+    list-of-references)
 
 (82 "Stream Ports (2006, withdrawn)"
-)
+    abstract-link
+    list-of-references)
 
 (83 "R6RS Library Syntax (2006, withdrawn)"
-)
+    multiple-authors
+    custom-highlight-font
+    grammar
+    multi-level-list
+    list-of-references)
 
 (84 "Universal Identifiers (2006, withdrawn)"
-)
+    author-website
+    inline-citation
+    grammar
+    multi-level-list
+    footer-last-modified)
 
 (85 "Recursive Equivalence Predicates (2006, withdrawn)"
-)
+    list-of-references)
 
 (86 "MU and NU simulating VALUES & CALL-WITH-VALUES, and their related LET-syntax (2006)"
-)
+    multi-paragraph-list-item
+    grammar
+    list-of-references)
 
 (87 "=> in case clauses (2006)"
-)
+    define-syntax
+    custom-highlight-font
+    blockquote
+    footer-last-modified)
 
 (88 "Keyword objects (2007)"
-)
+    read-syntax
+    multi-paragraph-list-item
+    grammar)
 
 (89 "Optional positional and named parameters (2007)"
-)
+    define-syntax
+    grammar
+    multi-level-list)
 
-(90 "Extensible hash table constructor (2007)"
-)
+(90 "Extensible hash table constructor (2007)")
 
 (91 "Extended ports (2007, withdrawn)"
-)
+    multi-level-list
+    multi-paragraph-list-item)
 
 (92 "ALAMBDA and ALAMBDA* (2007, withdrawn)"
-)
+    abstract-list
+    define-syntax
+    grammar
+    list-of-references)
 
 (93 "R6RS Syntax-Case Macros (2006, withdrawn)"
+    read-syntax
+    define-syntax
+    custom-status
+    numbered-sections
     inline-image
-    math-image)
+    math-image
+    math-unicode
+    blockquote
+    list-of-references)
 
 (94 "Type-Restricted Numerical Functions (2007)"
-)
+    custom-status
+    blockquote
+    table
+    custom-highlight-font)
 
 (95 "Sorting and Merging (2007)"
-)
+    post-finalization-note)
 
 (96 "SLIB Prerequisites (2008)"
-)
+    abstract-link
+    blockquote
+    table
+    definition-list
+    define-syntax
+    footer-last-modified)
 
 (97 "SRFI Libraries (2008)"
-)
+    post-finalization-note
+    custom-highlight-font
+    table
+    list-of-references)
 
 (98 "An interface to access environment variables (2008)"
-)
+    custom-status
+    table)
 
 (99 "ERR5RS Records (2009)"
-)
+    define-syntax
+    list-of-references)
 
 (100 "define-lambda-object (2010)"
 )
