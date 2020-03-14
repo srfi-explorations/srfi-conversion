@@ -1,3 +1,7 @@
+(feature math-image "Image of a math formula")
+(feature block-image "Non-math image used as a block element")
+(feature inline-image "Non-math image used as an inline element")
+
 (0 "Feature-based conditional expansion construct (1999)"
 )
 
@@ -122,7 +126,8 @@
 )
 
 (41 "Streams (2008)"
-)
+    block-image
+    math-image)
 
 (42 "Eager Comprehensions (2003)"
 )
@@ -200,7 +205,7 @@
 )
 
 (67 "Compare Procedures (2005)"
-)
+    math-image)
 
 (68 "Comprehensive I/O (2005, withdrawn)"
 )
@@ -278,7 +283,8 @@
 )
 
 (93 "R6RS Syntax-Case Macros (2006, withdrawn)"
-)
+    inline-image
+    math-image)
 
 (94 "Type-Restricted Numerical Functions (2007)"
 )
