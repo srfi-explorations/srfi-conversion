@@ -15,9 +15,13 @@
 (feature ascii-art-flowchart "Contains a flowchart as ASCII art")
 (feature ordered-list-letters "Ordered list <ol> using letters, not numbers")
 (feature multi-paragrpah-list-item "List items with paragraph breaks")
+(feature numbered-sections "Sections are explicitly numbered 1,2,3,...")
+(feature custom-highlight-font "Parts of SRFI are highlighted in red font, etc.")
 
 (feature list-of-references "List of citations at end of SRFI")
 (feature inline-citation "Inline references in square brackets")
+
+(feature c-code "Contains C code")
 
 (feature custom-kind "Definition that is proc, var, type, or syntax")
 (feature define-type "The SRFI defines a new Scheme datatype")
@@ -42,6 +46,7 @@
 (feature footer-last-modified "Has timestamp under the final <hr>")
 (feature custom-status "Status section includes non-standard text")
 (feature author-email "Has author's email address or email link")
+(feature author-website "Has link to author's website")
 (feature author-residence "Has author's affiliation or contact info (non-email)")
 (feature multiple-authors "Has more than one author")
 
@@ -336,94 +341,201 @@
     footer-last-modified)
 
 (49 "Indentation-sensitive syntax (2005)"
-)
+    custom-css-embedded
+    author-email
+    custom-css-classes)
 
 (50 "Mixing Scheme and C (2005, withdrawn)"
-)
+    abstract-list
+    abstract-link
+    definition-list
+    define-syntax
+    c-code
+    table
+    list-of-references)
 
 (51 "Handling rest list (2004)"
-)
+    abstract-list
+    define-syntax
+    footer-last-modified)
 
 (52 "Permitting and Supporting Extended Character Sets (2004, withdrawn)"
-)
+    abstract-link
+    grammar
+    definition-list
+    footer-author
+    footer-last-modified)
 
 (53 "Syntactic computations with computation-rules (2004, withdrawn)"
-)
+    define-syntax
+    list-of-references
+    author-email
+    footer-author
+    footer-last-modified)
 
 (54 "Formatting (2004)"
-)
+    definition-list
+    footer-last-modified)
 
 (55 "require-extension (2004)"
-)
+    multiple-authors
+    define-syntax
+    footer-last-modified)
 
 (56 "Binary I/O (2005, withdrawn)"
-)
+    custom-css-embedded
+    custom-css-classes
+    procedure-index
+    list-of-references)
 
 (57 "Records (2005)"
-)
+    grammar
+    define-syntax
+    multi-level-lists
+    author-email
+    footer-author
+    footer-last-modified)
 
 (58 "Array Notation (2005)"
-)
+    custom-status
+    abstract-link
+    grammar
+    table
+    footer-last-modified)
 
 (59 "Vicinity (2005)"
-)
+    footer-last-modified)
 
 (60 "Integers as Bits (2005)"
-)
+    abstract-list
+    footer-last-modified)
 
 (61 "A more general cond clause (2005)"
-)
+    grammar
+    define-syntax)
 
 (62 "S-expression comments (2005)"
-)
+    read-syntax
+    grammar)
 
 (63 "Homogeneous and Heterogeneous Arrays (2005)"
-)
+    abstract-list
+    table
+    multi-level-lists
+    footer-last-modified)
 
 (64 "A Scheme API for test suites (2006)"
-)
+    custom-css-embedded
+    post-finalization-note
+    author-email
+    footer-author
+    footer-last-modified)
 
 (65 "define-immutable: A Syntax to Define Identifiers With Immutable Values (2005, withdrawn)"
-)
+    author-website
+    abstract-pre
+    list-of-references)
 
 (66 "Octet Vectors (2005)"
-)
+    post-finalization-note
+    list-of-references)
 
 (67 "Compare Procedures (2005)"
-    math-image)
+    define-syntax
+    custom-css-file
+    custom-status
+    numbered-sections
+    table
+    blockquote
+    math-image
+    inline-citation
+    list-of-references)
 
 (68 "Comprehensive I/O (2005, withdrawn)"
-)
+    abstract-list
+    abstract-link
+    define-type
+    blockquote
+    multi-level-lists
+    list-of-references)
 
 (69 "Basic hash tables (2005)"
-)
+    abstract-list
+    procedure-index
+    footer-last-modified)
 
 (70 "Numbers (2005)"
-)
+    abstract-list
+    table
+    blockquote
+    math-unicode
+    grammar
+    custom-highlight-font
+    footer-last-modified)
 
 (71 "Extended LET-syntax for multiple values (2005)"
-)
+    author-email
+    abstract-pre
+    grammar
+    define-syntax
+    list-of-references
+    author-email
+    footer-author
+    footer-last-modified)
 
 (72 "Hygienic macros (2005)"
-)
+    post-finalization-note
+    abstract-list
+    read-syntax
+    define-syntax
+    blockquote
+    custom-highlight-font
+    list-of-references
+    author-email
+    footer-author)
 
 (73 "Exact Infinities (2005, withdrawn)"
-)
+    custom-highlight-font
+    list-of-references
+    footer-author)
 
 (74 "Octet-Addressed Binary Blocks (2005)"
-)
+    list-of-references)
 
 (75 "R6RS Unicode data (2006, withdrawn)"
-)
+    multiple-authors
+    custom-status
+    custom-highlight-font
+    greek-letters
+    definition-list
+    list-of-references)
 
 (76 "R6RS Records (2006, withdrawn)"
-)
+    multiple-authors
+    define-syntax
+    blockquote
+    list-of-references)
 
 (77 "Preliminary Proposal for R6RS Arithmetic (2006, withdrawn)"
-)
+    multiple-authors
+    custom-status
+    custom-highlight-font
+    abstract-list
+    read-syntax
+    blockquote
+    table
+    grammar
+    list-of-references)
 
 (78 "Lightweight testing (2006)"
-)
+    post-finalization-note
+    abstract-link
+    abstract-list
+    abstract-pre
+    define-syntax
+    list-of-references
+    author-email
+    footer-author)
 
 (79 "Primitive I/O (2006, withdrawn)"
 )
