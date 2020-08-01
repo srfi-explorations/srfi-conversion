@@ -20,7 +20,7 @@
         (scheme write)
         (srfi 1)
         (srfi 130)
-        (srfi 159 base)
+        (srfi 166 base)
         (chibi sxml)
 	(srfi-index)
 	(utilities))

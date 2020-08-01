@@ -1023,7 +1023,7 @@
 
 (165 "The Environment Monad (2019)")
 
-(166 "Monadic Formatting (draft)"
+(166 "Monadic Formatting (2020)"
      procedure-index
      definition-list
      custom-highlight-font
