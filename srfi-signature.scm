@@ -126,21 +126,17 @@
 
 (define (main)
   (let ((signatures (map list->signatures (read-all-forms))))
-    (sxml-display-as-html '(link (@ (rel "stylesheet") (href "srfi.css"))))
-    (newline)
-    (display "<dl class=\"signatures\">")
-    (for-each (lambda (s)
-		(cond ((pair? s)
-		       (disp "<div>")
-		       (for-each (lambda (s*)
-				   (display (make-string tab-amount #\space))
-				   (sxml-display-as-html (signature->sxml s*))
-				   (newline))
-				 s)
-		       (disp "</div>"))
-		      (else (sxml-display-as-html (signature->sxml s))
-			    (newline))))
-	      signatures)
-    (display "</dl>")))
+    (sxml-display-as-html
+     `(html
+       (head (title "SRFI Signatures")
+	     (link (@ (rel "stylesheet") (href "srfi.css"))))
+       (body
+	(dl (@ (class "signatures"))
+	    ,(map (lambda (s)
+		    (cond ((pair? s)
+			   `(div ,(map signature->sxml s)))
+			  ((signature? s) (signature->sxml s))
+			  (else '())))
+		  signatures)))))))
 
 (main)

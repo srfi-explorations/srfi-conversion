@@ -1,5 +1,6 @@
 (define-library (srfi-index)
   (export list->signatures
+	  signature?
 	  signature/arguments
 	  signature/literals
 	  signature/name
