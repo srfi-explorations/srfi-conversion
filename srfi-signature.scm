@@ -20,7 +20,7 @@
         (scheme write)
         (srfi 1)
         (srfi 130)
-        (srfi 166 base)
+        (srfi 166)
         (chibi sxml)
 	(srfi-index)
 	(utilities))
@@ -84,7 +84,9 @@
 		       " "
 		       ,long-rightwards-arrow
 		       " "
-		       ,@(comma-separate returns)))
+		       ,@(comma-separate
+			  (map (lambda (r) (show #f (pretty r)))
+			       returns))))
 	       '())
 	 ,@(if note `(" " (p ,note)) '())))
   (define (syntax-args arguments literals)
@@ -123,7 +125,7 @@
       (else (error "Unrecognized type." type)))))
 
 (define (main)
-  (let ((signatures (map list->signature (read-all-forms))))
+  (let ((signatures (map list->signatures (read-all-forms))))
     (sxml-display-as-html '(link (@ (rel "stylesheet") (href "srfi.css"))))
     (newline)
     (display "<dl class=\"signatures\">")

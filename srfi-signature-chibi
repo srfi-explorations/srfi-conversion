@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# example: cat signatures.txt|./srfi-signature-chibi
+# example: cat srfi-common/index/signatures.scm|./srfi-signature-chibi
 
 set -eu
 dir="$(dirname "$0")"

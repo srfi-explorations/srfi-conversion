@@ -8,22 +8,22 @@
   (returns signature/returns)		; symbol, list of symbols, or #f
   (type signature/type))		; symbol ∈ { procedure, syntax, other }
 
-(define (list->signature x)
-  (match x
-	 ((? symbol? x) (make-signature x 'other #f #f #f #f))
-	 (('syntax (name args ...) ('literals lits ...))
-	  (make-signature name 'syntax args #f lits #f))
-	 (('syntax (name args ...) ('literals lits ...) ('returns rets ...))
-	  (make-signature name 'syntax args rets lits #f))
-	 (('syntax (name args ...) ('returns rets ...))
-	  (make-signature name 'syntax args rets #f #f))
-	 (('syntax (name args ...))
-	  (make-signature name 'syntax args #f #f #f))
-	 (((name args ...) ('returns rets ...) ('note nts ...))
-	  (make-signature name 'procedure args rets #f nts))
-	 (((name args ...) ('returns rets ...))
-	  (make-signature name 'procedure args rets #f #f))
-	 (((name args ...))
-	  (make-signature name 'procedure args #f #f #f))
-	 (('group sigs ...) (map list->signature sigs))
-	 (else (error "Unrecognized signature expression." x))))
+(define (list->signatures x)
+  (let* ((kind (cond ((assq 'kind x) => cadr)
+		     (else (error "No kind specified." x))))
+	 (source (cond ((assq 'source x) => cadr) (else #f)))
+	 (note (and source (show #f "source: " source))))
+    (append-map
+     (lambda (slot)
+       (match slot
+	      (('signature (name . arguments) ('returns . r))
+	       (list (make-signature name
+				     kind
+				     arguments
+				     r
+				     #f
+				     note)))
+	      (('signature (name . arguments))
+	       (list (make-signature name kind arguments #f #f note)))
+	      (x '())))
+     x)))
