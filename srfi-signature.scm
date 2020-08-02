@@ -133,9 +133,11 @@
        (body
 	(dl (@ (class "signatures"))
 	    ,(map (lambda (s)
-		    (cond ((pair? s)
-			   `(div ,(map signature->sxml s)))
-			  ((signature? s) (signature->sxml s))
+		    (cond ((signature? s) (signature->sxml s))
+			  ((pair? s)
+			   (if (null? (cdr s))
+			       (signature->sxml (car s))
+			       `(div ,(map signature->sxml s))))
 			  (else '())))
 		  signatures)))))))
 
