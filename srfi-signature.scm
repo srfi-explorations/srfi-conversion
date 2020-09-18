@@ -129,7 +129,7 @@
     (sxml-display-as-html
      `(html
        (head (title "SRFI Signatures")
-	     (link (@ (rel "stylesheet") (href "srfi.css"))))
+	     (link (@ (rel "stylesheet") (href "signature.css"))))
        (body
 	(dl (@ (class "signatures"))
 	    ,(map (lambda (s)
