@@ -44,16 +44,24 @@ dl.signatures dt>span {
   padding-left: 0.5em;
 }
 dl.signatures dt>dfn:first-child {
-  font-family: Monaco, Courier, monospace;
   font-style: normal;
   font-weight: bold;
 }
 dl.signatures dt>p {
   display: inline;
 }
+dl.signatures dt {
+  font-family: Monaco, Courier, monospace;
+}
+dt span {
+  padding: 0;
+}
 h1, h2 {
   color: blue;
 }
 h1 {
   text-align: center;
+}
+scheme-procedure {
+  display: block;
 }
